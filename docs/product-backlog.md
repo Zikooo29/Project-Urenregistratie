@@ -11,4 +11,4 @@ Product Backlog (Sprint 0)
 | PB7 | UC4  | *Nog in te vullen user story voor UC4* | Must | Functioneel |  | To Do |
 | PB8 | UC4  | *Nog in te vullen user story voor UC4* | Must | Functioneel |  | To Do |
 | PB9 | UC5  | *Nog in te vullen user story voor UC5* | Must | Functioneel |  | To Do |
-| PB10 | UC5 | Als opdrachtgever wil ik ingediende uren kunnen goedkeuren of afkeuren zodat alleen correcte uren worden verwerkt. | Hoog | Functioneel | - Opdrachtgever kan uren bekijken en selecteren.<br>- Kan goedkeuren of afkeuren.<br>- Afkeuren kan met reden.<br>- Werknemer ontvangt melding.<br>- Status wijzigt automatisch. | To Do |
+| PB10 | UC5 | Als opdrachtgever wil ik ingediende uren kunnen goedkeuren of afkeuren zodat alleen correcte uren worden verwerkt. | Hoog | Functioneel | - Opdrachtgever kan uren bekijken.<br>- Opdrachtgever kan alle uren in 1 keer goedkeuren of afkeuren.<br>- Afkeuren moet verplicht met reden.<br>- Opdrachtgever wordt bij zowel goedkeuring als afkeuring gevraagd om bevestiging.<br>- Opdrachtgever ontvangt bevestiging bij zowel goedkeuren als afkeuren.| To Do |
