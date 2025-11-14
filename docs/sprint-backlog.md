@@ -40,9 +40,9 @@
 
 | ID | Taak | Koppeling Product Backlog | Toegewezen aan | Status |
 |----|------|----------------------------|----------------|--------|
-| S0-UC5-SB1 | Ontwerpen basisoverzichtsscherm met medewerkers die openstaande uren hebben | PB10 | Raquel | To Do |
-| S0-UC5-SB2 | Implementeren overzichtsscherm (lijst + "selecteren" knop) | PB10 | Raquel | To Do |
-| S0-UC5-SB3 | Bouwen medewerker-urenoverzicht (datum, naam, project, starttijd, eindtijd tonen) | PB10 | Raquel | To Do|
+| S0-UC5-SB1 | Ontwerpen basisoverzichtsscherm met medewerkers die openstaande uren hebben | PB9 | Raquel | To Do |
+| S0-UC5-SB2 | Implementeren overzichtsscherm (lijst + "selecteren" knop) | PB9 | Raquel | To Do |
+| S0-UC5-SB3 | Bouwen medewerker-urenoverzicht (datum, naam, project, starttijd, eindtijd tonen) | PB9 | Raquel | To Do|
 | S0-UC5-SB4 | Functionaliteit: alle uren goed kunnen keuren | PB10 | Raquel | To Do |
 | S0-UC5-SB5 | Functionaliteit: alle uren af kunnen keuren | PB10 | Raquel | To Do |
 | S0-UC5-SB6 | Verplichte reden bij afkeuren + validatie in pop-up | PB10 | Raquel | To Do |
