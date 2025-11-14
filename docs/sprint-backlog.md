@@ -2,11 +2,11 @@
 
 | ID | Taak | Koppeling Product Backlog | Toegewezen aan | Status |
 |----|------|----------------------------|----------------|--------|
-| S0-UC1-SB1 | Basis UI-scherm realiseren voor de inlogpagina met velden voor e-mailadres en wachtwoord | PB1 | Manesh Dewanarian | To Do |
-| S0-UC1-SB2 | *Nog in te vullen taak* | PB1 | Manesh Dewanarian | To Do |
-| S0-UC1-SB3 | *Nog in te vullen taak* | PB1 | Manesh Dewanarian | To Do |
-| S0-UC1-SB4 | *Nog in te vullen taak* | PB1 | Manesh Dewanarian | To Do |
-| S0-UC1-SB5 | *Nog in te vullen taak* | PB1 | Manesh Dewanarian | To Do |
+| S0-UC1-SB1 | Basis UI-scherm realiseren voor de inlogpagina maken met velden voor e-mailadres en wachtwoord. | PB1 | Manesh Dewanarian | To Do |
+| S0-UC1-SB2 | *Foutmeldingen implementeren na mislukte login* | PB1 | Manesh Dewanarian | To Do |
+| S0-UC1-SB3 | *Wachtwoord hashing implementeren en gebruiker verifiëren* | PB1 | Manesh Dewanarian | To Do |
+| S0-UC1-SB4 | *Autorisatie instellen zodat gebruikers alleen toegang hebben tot hun eigen rolomgeving* | PB2 | Manesh Dewanarian | To Do |
+| S0-UC1-SB5 | *NGebruikers toekennen aan een rol zodat die naar de juiste omgeving word gestuurd* | PB2 | Manesh Dewanarian | To Do |
 
 
 ## Sprint Backlog – UC2
