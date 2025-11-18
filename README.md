@@ -1,12 +1,12 @@
-# Project-Urenregistratie ⏲️
+# Project-Urenregistratie 
 
-## 📌 Projectbeschrijving
+##  Projectbeschrijving
 
-**Project-Urenregistratie** is een mobiele en desktop-applicatie, ontwikkeld in opdracht van detacheringsbureau **“Ons Werk”**, met als doel het **digitaliseren en stroomlijnen** van hun urenregistratieproces.
+**Project-Urenregistratie** is een desktop-applicatie, ontwikkeld in opdracht van detacheringsbureau **“Ons Werk”**, met als doel het **digitaliseren en stroomlijnen** van hun urenregistratieproces.
 
 Momenteel vullen werknemers urenbonnen handmatig in, wat leidt tot een tijdrovende en foutgevoelige administratieve verwerking. Dit project vervangt dat handmatige proces door een gebruiksvriendelijke, digitale oplossing gebouwd met de cross-platformkracht van C# en .NET MAUI.
 
-### 🎯 Kernfunctionaliteit:
+### Kernfunctionaliteit:
 * **Werknemersportaal:** Eenvoudige registratie van gewerkte uren per opdrachtgever en project.
 * **Digitale Goedkeuring:** Mogelijkheid voor opdrachtgevers om uren digitaal te accorderen (bijvoorbeeld via een in-app handtekening of goedkeuringsflow).
 * **Administratieve Integratie:** Naadloze export of directe integratie van goedgekeurde uren naar het **boekhoudsysteem** (voor facturering) en het **verloningssysteem** (voor salarisverwerking).
@@ -14,7 +14,7 @@ Momenteel vullen werknemers urenbonnen handmatig in, wat leidt tot een tijdroven
 
 ---
 
-## 🧪 Gebruikte technologieën
+## Gebruikte technologieën
 
 Dit project wordt ontwikkeld als een moderne, cross-platform applicatie. De volgende technologieën en frameworks worden gebruikt:
 
@@ -29,7 +29,7 @@ Dit project wordt ontwikkeld als een moderne, cross-platform applicatie. De volg
 
 ---
 
-## ⚙️ Installatie en Opstarten
+## Installatie en Opstarten
 
 ### 1. Vereisten
 Zorg ervoor dat de volgende tools zijn geïnstalleerd op je ontwikkelmachine:
@@ -40,8 +40,38 @@ Zorg ervoor dat de volgende tools zijn geïnstalleerd op je ontwikkelmachine:
 
 ### 2. De Repository Klonen
 
+* Klonen van de repository via HTTPS
+* git clone Project-Urenregistratie
+* cd Project-Urenregistratie
 
-# Klonen van de repository via HTTPS
-git clone Project-Urenregistratie
-cd Project-Urenregistratie
+### Naamgeving (Naming Conventions)
+
+We volgen de Microsoft .NET Naming Guidelines:
+
+We volgen de **Microsoft .NET Naming Guidelines**:
+
+| Element | Conventie | Voorbeeld | Toelichting |
+| :--- | :--- | :--- | :--- |
+| **Klassen, Methoden, Properties** | **PascalCase** | `public class UrenService { ... }` | Hoofdletter aan het begin van elk woord. |
+| **Lokale Variabelen, Parameters** | **camelCase** | `string werknemerNaam;` | Kleine letter aan het begin. |
+| **Fields (Private Instance)** | **camelCase** (met een underscore prefix) | `private readonly ILogger _logger;` | Duidelijk onderscheid van lokale variabelen. |
+| **Interfaces** | **PascalCase** (met een 'I' prefix) | `public interface IUrenRepository { ... }` | Standaard .NET conventie. |
+| **XAML Controls (Name)** | **camelCase** (met type prefix) | `<Button x:Name="btnOpslaan"/>` | Gebruik korte prefixen zoals btn, lbl, txt. |
+
+### 2. Formattering en Whitespace
+* **Indenting:** Gebruik 4 spaties voor inspringen. Gebruik geen tabs.
+
+* **Braces** ({ }): Plaats de opening curly brace ({) op een nieuwe regel voor klassen, methoden en control flows (if, for, while).
+
+### 3. MAUI/XAML Conventies
+* Styling: Maak optimaal gebruik van Styles en Resource Dictionaries om code-duplicatie te voorkomen.
+
+* Volgorde van Attributen: Houd een logische volgorde aan in XAML-controls: x:Name/x:DataType > Layout Properties > Visual Properties > Event Handlers.
+
+### 4. Opruimen
+Verwijder altijd ongebruikte using statements.
+
+Gebruik XML-documentatie (///) voor publieke methoden en klassen.
+
+
 ```bash
