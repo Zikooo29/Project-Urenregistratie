@@ -13,7 +13,7 @@
       BackgroundColor="#222222"
       ColumnDefinitions="Auto,Auto,*">
 
-            <!-- Button 1 -->
+            <!-- hamburger button -->
             <Button Grid.Column="0"
             Text="☰"
             FontSize="20"
@@ -23,7 +23,7 @@
             TextColor="White"
             Clicked="OnMenuButtonClicked" />
 
-            <!-- Button 2 -->
+            <!-- home button -->
             <Button Grid.Column="1"
             Text="⌂"
             FontSize="20"
@@ -59,14 +59,13 @@
                        FontSize="18"
                        TextColor="White" />
 
-                <Button Text="Home"
-                    Clicked="OnMainMenuClicked" />
-
                 <Button Text="Page 1"
                         Clicked="OnPage1Clicked" />
 
                 <Button Text="Page 2"
                         Clicked="OnPage2Clicked" />
+                <Button Text="page 3"
+                        Clicked="OnPage3Clicked" />
 
             </VerticalStackLayout>
 
@@ -74,7 +73,7 @@
             <ContentView x:Name="SubPage"
                          Grid.Column="1">
                 <VerticalStackLayout Padding="20">
-                    <Label Text="Halloo"
+                    <Label Text="Welkom Bij Mijn uren"
                            FontSize="18" />
                 </VerticalStackLayout>
             </ContentView>
