@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:Urenregistratie_Applicatie.Views"
+             x:Class="Urenregistratie_Applicatie.Views.MainPage"
+             Title="MijnUren - Hoofdscherm">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- HEADER -->
+        <Grid Grid.Row="0"
+      Padding="16,10"
+      BackgroundColor="#222222"
+      ColumnDefinitions="Auto,Auto,*">
+
+            <!-- Button 1 -->
+            <Button Grid.Column="0"
+            Text="☰"
+            FontSize="20"
+            WidthRequest="40"
+            HeightRequest="40"
+            BackgroundColor="Transparent"
+            TextColor="White"
+            Clicked="OnMenuButtonClicked" />
+
+            <!-- Button 2 -->
+            <Button Grid.Column="1"
+            Text="⌂"
+            FontSize="20"
+            WidthRequest="40"
+            HeightRequest="40"
+            BackgroundColor="Transparent"
+            TextColor="White"
+             Clicked="OnMainMenuClicked" />
+
+            <!-- Title Label -->
+            <Label Grid.Column="2"
+           Text="Urenregistratie"
+           FontSize="20"
+           FontAttributes="Bold"
+           HorizontalOptions="Center"
+           VerticalOptions="Center"
+           TextColor="White" />
+        </Grid>
+
+        <!-- SIDEBAR + CONTENT -->
+        <Grid Grid.Row="1"
+              ColumnDefinitions="Auto,*">
+
+            <!-- Alleen Page1 en Page2 -->
+            <VerticalStackLayout x:Name="SideMenu"
+                                 BackgroundColor="#333333"
+                                 Padding="16"
+                                 Spacing="10"
+                                 IsVisible="False">
+
+                <Label Text="Menu"
+                       FontAttributes="Bold"
+                       FontSize="18"
+                       TextColor="White" />
+
+                <Button Text="Home"
+                    Clicked="OnMainMenuClicked" />
+
+                <Button Text="Page 1"
+                        Clicked="OnPage1Clicked" />
+
+                <Button Text="Page 2"
+                        Clicked="OnPage2Clicked" />
+
+            </VerticalStackLayout>
+
+            <!-- SubPage  -->
+            <ContentView x:Name="SubPage"
+                         Grid.Column="1">
+                <VerticalStackLayout Padding="20">
+                    <Label Text="Halloo"
+                           FontSize="18" />
+                </VerticalStackLayout>
+            </ContentView>
+
+        </Grid>
+    </Grid>
+
+</ContentPage>
+
