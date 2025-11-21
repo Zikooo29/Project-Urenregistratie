@@ -9,25 +9,38 @@
 
         <!-- HEADER -->
         <Grid Grid.Row="0"
-              Padding="16,10"
-              BackgroundColor="#222222"
-              ColumnDefinitions="Auto,*">
+      Padding="16,10"
+      BackgroundColor="#222222"
+      ColumnDefinitions="Auto,Auto,*">
 
-            <Button Text="☰"
-                    FontSize="20"
-                    WidthRequest="40"
-                    HeightRequest="40"
-                    BackgroundColor="Transparent"
-                    TextColor="White"
-                    Clicked="OnMenuButtonClicked" />
+            <!-- Button 1 -->
+            <Button Grid.Column="0"
+            Text="☰"
+            FontSize="20"
+            WidthRequest="40"
+            HeightRequest="40"
+            BackgroundColor="Transparent"
+            TextColor="White"
+            Clicked="OnMenuButtonClicked" />
 
-            <Label Grid.Column="1"
-                   Text="Urenregistratie"
-                   FontSize="20"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   TextColor="White" />
+            <!-- Button 2 -->
+            <Button Grid.Column="1"
+            Text="⌂"
+            FontSize="20"
+            WidthRequest="40"
+            HeightRequest="40"
+            BackgroundColor="Transparent"
+            TextColor="White"
+             Clicked="OnMainMenuClicked" />
+
+            <!-- Title Label -->
+            <Label Grid.Column="2"
+           Text="Urenregistratie"
+           FontSize="20"
+           FontAttributes="Bold"
+           HorizontalOptions="Center"
+           VerticalOptions="Center"
+           TextColor="White" />
         </Grid>
 
         <!-- SIDEBAR + CONTENT -->
