@@ -11,19 +11,16 @@
         <Grid Grid.Row="0"
               Style="{StaticResource HeaderGridStyle}">
 
-            <!-- hamburger button -->
-            <Button Grid.Column="0"
-                    Text="☰"
-                    Style="{StaticResource HeaderIconButtonStyle}" />
 
             <!-- home button -->
-            <Button Grid.Column="1"
+            <Button Grid.Column="0"
                     Text="⌂"
                     Style="{StaticResource HeaderIconButtonStyle}"
                     Clicked="OnMainMenuClicked" />
 
             <!-- Title Label -->
-            <Label Grid.Column="2"
+            <Label x:Name="HeaderTitle"
+                   Grid.Column="2"
                    Text="Urenregistratie"
                    Style="{StaticResource HeaderTitleLabelStyle}" />
         </Grid>

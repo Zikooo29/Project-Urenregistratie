@@ -23,6 +23,8 @@ public partial class MainPage : ContentPage
     {
         
         SubPage.Content = _defaultContent;
+        HeaderTitle.Text = "Urenregistratie";
+        this.Title = "MijnUren - Hoofdscherm";
 
     }
 
@@ -31,6 +33,8 @@ public partial class MainPage : ContentPage
     {
         
         SubPage.Content = new Page1();
+        HeaderTitle.Text = "Page 1";
+        this.Title = "MijnUren - Page 1";
     }
 
     //Pagina 2 knop
@@ -38,11 +42,15 @@ public partial class MainPage : ContentPage
     {
         
         SubPage.Content = new Page2();
+        HeaderTitle.Text = "Page 2";
+        this.Title = "MijnUren - Page 2";
     }
     //Pagina 3 knop
     private void OnPage3Clicked(object sender, EventArgs e)
     {
         
         SubPage.Content = new Page3();
+        HeaderTitle.Text = "Page 3";
+        this.Title = "MijnUren - Page 3";
     }
 }
