@@ -14,8 +14,7 @@
             <!-- hamburger button -->
             <Button Grid.Column="0"
                     Text="☰"
-                    Style="{StaticResource HeaderIconButtonStyle}"
-                    Clicked="OnMenuButtonClicked" />
+                    Style="{StaticResource HeaderIconButtonStyle}" />
 
             <!-- home button -->
             <Button Grid.Column="1"
@@ -36,7 +35,7 @@
             <!-- Alleen Page1, Page2, Page3 -->
             <VerticalStackLayout x:Name="SideMenu"
                                  Style="{StaticResource SideMenuStyle}"
-                                 IsVisible="False">
+                                 IsVisible="True">
 
                 <Label Text="Menu"
                        Style="{StaticResource SideMenuTitleLabelStyle}" />
