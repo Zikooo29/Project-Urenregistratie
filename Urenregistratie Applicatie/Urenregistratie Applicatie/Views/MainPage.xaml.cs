@@ -43,4 +43,10 @@ public partial class MainPage : ContentPage
         SideMenu.IsVisible = false;
         SubPage.Content = new Page2();
     }
+    //Pagina 3 knop
+    private void OnPage3Clicked(object sender, EventArgs e)
+    {
+        SideMenu.IsVisible = false;
+        SubPage.Content = new Page3();
+    }
 }
