@@ -16,37 +16,41 @@ public partial class MainPage : ContentPage
         // SubPage.Content = new Page1(); komt hier (is optioneel)
     }
 
-    // Menu knop
-    private void OnMenuButtonClicked(object sender, EventArgs e)
-    {
-        SideMenu.IsVisible = !SideMenu.IsVisible;
-    }
+   
 
     // Home knop
     private void OnMainMenuClicked(object sender, EventArgs e)
     {
-        SideMenu.IsVisible = false;
+        
         SubPage.Content = _defaultContent;
+        HeaderTitle.Text = "Urenregistratie";
+        this.Title = "MijnUren - Hoofdscherm";
 
     }
 
     //Pagina 1 knop
     private void OnPage1Clicked(object sender, EventArgs e)
     {
-        SideMenu.IsVisible = false;
+        
         SubPage.Content = new Page1();
+        HeaderTitle.Text = "Page 1";
+        this.Title = "MijnUren - Page 1";
     }
 
     //Pagina 2 knop
     private void OnPage2Clicked(object sender, EventArgs e)
     {
-        SideMenu.IsVisible = false;
+        
         SubPage.Content = new Page2();
+        HeaderTitle.Text = "Page 2";
+        this.Title = "MijnUren - Page 2";
     }
     //Pagina 3 knop
     private void OnPage3Clicked(object sender, EventArgs e)
     {
-        SideMenu.IsVisible = false;
+        
         SubPage.Content = new Page3();
+        HeaderTitle.Text = "Page 3";
+        this.Title = "MijnUren - Page 3";
     }
 }
