@@ -48,9 +48,9 @@ public partial class MainPage : ContentPage
     //Pagina 3 knop
     private void OnPage3Clicked(object sender, EventArgs e)
     {
-        
+
         SubPage.Content = new Page3();
-        HeaderTitle.Text = "Page 3";
-        this.Title = "MijnUren - Page 3";
+        HeaderTitle.Text = "Gebruikersoverzicht";
+        this.Title = "MijnUren - Gebruikers";
     }
 }

@@ -1,11 +1,149 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Urenregistratie_Applicatie.Views.Page3">
-    <VerticalStackLayout>
-        <Label 
-            Text="Dit is pagina 3"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+             x:Class="Urenregistratie_Applicatie.Views.Page3"
+             Loaded="OnLoaded">
+    <VerticalStackLayout Padding="20" Spacing="12">
+        <Label Text="Gebruikersoverzicht"
+               FontSize="22"
+               FontAttributes="Bold" />
+
+        <Label Text="Als administratiemedewerker kun je hier alle accounts beheren en controleren."
+               TextColor="Gray" />
+
+        <Frame x:Name="AccessDeniedCard"
+               IsVisible="False"
+               BorderColor="DarkRed"
+               BackgroundColor="MistyRose"
+               Padding="16">
+            <Label Text="Alleen admins hebben toegang tot deze pagina."
+                   TextColor="DarkRed"
+                   FontAttributes="Bold" />
+        </Frame>
+
+        <VerticalStackLayout x:Name="AdminContent" Spacing="12" IsVisible="False">
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                <Label Text="Overzicht van alle gebruikers"
+                       FontAttributes="Semibold" />
+                <HorizontalStackLayout Spacing="8">
+                    <Button Text="Ververs lijst"
+                            Clicked="OnRefreshClicked"
+                            SemanticProperties.Description="Ververs de gebruikerslijst" />
+                    <Button Text="Reset filters"
+                            Clicked="OnResetFiltersClicked" />
+                </HorizontalStackLayout>
+            </Grid>
+
+            <SearchBar x:Name="UserSearchBar"
+                       Placeholder="Zoek op naam of e-mail"
+                       TextChanged="OnSearchTextChanged" />
+
+            <Label x:Name="StatusLabel"
+                   FontSize="12"
+                   TextColor="Gray" />
+
+            <Label x:Name="ErrorLabel"
+                   Text="Er is iets misgegaan bij het laden van de gebruikers."
+                   TextColor="DarkRed"
+                   FontAttributes="Bold"
+                   IsVisible="False" />
+
+            <ActivityIndicator x:Name="LoadingIndicator"
+                                IsVisible="False"
+                                IsRunning="False"
+                                Color="{StaticResource Primary}" />
+
+            <Frame Padding="0">
+                <Grid RowDefinitions="Auto,*">
+                    <Grid ColumnDefinitions="2*,2*,3*,1.5*,2*,1.5*"
+                          Padding="12"
+                          BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray950}}">
+                        <Button x:Name="FirstNameHeader"
+                                Grid.Column="0"
+                                Text="Voornaam"
+                                Clicked="OnSortByFirstName"
+                                Padding="0"
+                                HorizontalOptions="Start"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource Primary}" />
+                        <Button x:Name="LastNameHeader"
+                                Grid.Column="1"
+                                Text="Achternaam"
+                                Clicked="OnSortByLastName"
+                                Padding="0"
+                                HorizontalOptions="Start"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource Primary}" />
+                        <Button x:Name="EmailHeader"
+                                Grid.Column="2"
+                                Text="E-mail"
+                                Clicked="OnSortByEmail"
+                                Padding="0"
+                                HorizontalOptions="Start"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource Primary}" />
+                        <Button x:Name="RoleHeader"
+                                Grid.Column="3"
+                                Text="Rol"
+                                Clicked="OnSortByRole"
+                                Padding="0"
+                                HorizontalOptions="Start"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource Primary}" />
+                        <Button x:Name="LastLoginHeader"
+                                Grid.Column="4"
+                                Text="Laatste login"
+                                Clicked="OnSortByLastLogin"
+                                Padding="0"
+                                HorizontalOptions="Start"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource Primary}" />
+                        <Button x:Name="UserIdHeader"
+                                Grid.Column="5"
+                                Text="Gebruikers-ID"
+                                Clicked="OnSortById"
+                                Padding="0"
+                                HorizontalOptions="Start"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource Primary}" />
+                    </Grid>
+
+                    <CollectionView x:Name="UsersCollection"
+                                    Grid.Row="1"
+                                    ItemsLayout="VerticalList"
+                                    SelectionMode="None"
+                                    ItemsSource="{Binding}">
+                        <CollectionView.EmptyView>
+                            <Label x:Name="EmptyStateLabel"
+                                   Text="Geen gebruikers gevonden"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   TextColor="Gray" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="2*,2*,3*,1.5*,2*,1.5*"
+                                      Padding="12"
+                                      ColumnSpacing="8"
+                                      BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding FirstName}" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding LastName}" />
+                                    <Label Grid.Column="2"
+                                           Text="{Binding Email}" />
+                                    <Label Grid.Column="3"
+                                           Text="{Binding Role}" />
+                                    <Label Grid.Column="4"
+                                           Text="{Binding LastLogin, StringFormat='{}{0:dd-MM-yyyy HH:mm}'}" />
+                                    <Label Grid.Column="5"
+                                           Text="{Binding Id}" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Frame>
+        </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentView>
