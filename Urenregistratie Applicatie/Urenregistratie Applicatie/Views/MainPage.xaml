@@ -9,45 +9,33 @@
 
         <!-- HEADER -->
         <Grid Grid.Row="0"
-              Padding="16,10"
-              BackgroundColor="#222222"
-              ColumnDefinitions="Auto,*">
+              Style="{StaticResource HeaderGridStyle}">
 
-            <Button Text="☰"
-                    FontSize="20"
-                    WidthRequest="40"
-                    HeightRequest="40"
-                    BackgroundColor="Transparent"
-                    TextColor="White"
-                    Clicked="OnMenuButtonClicked" />
 
-            <Label Grid.Column="1"
+            <!-- home button -->
+            <Button Grid.Column="0"
+                    Text="⌂"
+                    Style="{StaticResource HeaderIconButtonStyle}"
+                    Clicked="OnMainMenuClicked" />
+
+            <!-- Title Label -->
+            <Label x:Name="HeaderTitle"
+                   Grid.Column="2"
                    Text="Urenregistratie"
-                   FontSize="20"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   TextColor="White" />
+                   Style="{StaticResource HeaderTitleLabelStyle}" />
         </Grid>
 
         <!-- SIDEBAR + CONTENT -->
         <Grid Grid.Row="1"
               ColumnDefinitions="Auto,*">
 
-            <!-- Alleen Page1 en Page2 -->
+            <!-- Alleen Page1, Page2, Page3 -->
             <VerticalStackLayout x:Name="SideMenu"
-                                 BackgroundColor="#333333"
-                                 Padding="16"
-                                 Spacing="10"
-                                 IsVisible="False">
+                                 Style="{StaticResource SideMenuStyle}"
+                                 IsVisible="True">
 
                 <Label Text="Menu"
-                       FontAttributes="Bold"
-                       FontSize="18"
-                       TextColor="White" />
-
-                <Button Text="Home"
-                    Clicked="OnMainMenuClicked" />
+                       Style="{StaticResource SideMenuTitleLabelStyle}" />
 
                 <Button Text="Page 1"
                         Clicked="OnPage1Clicked" />
@@ -55,14 +43,17 @@
                 <Button Text="Page 2"
                         Clicked="OnPage2Clicked" />
 
+                <Button Text="Gebruikers"
+                        Clicked="OnPage3Clicked" />
+
             </VerticalStackLayout>
 
             <!-- SubPage  -->
             <ContentView x:Name="SubPage"
                          Grid.Column="1">
                 <VerticalStackLayout Padding="20">
-                    <Label Text="Halloo"
-                           FontSize="18" />
+                    <Label Text="Welkom Bij Mijn uren"
+                           Style="{StaticResource SubPageWelcomeLabelStyle}" />
                 </VerticalStackLayout>
             </ContentView>
 
@@ -70,4 +61,3 @@
     </Grid>
 
 </ContentPage>
-

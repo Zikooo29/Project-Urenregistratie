@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- HEADER GRID (bovenbalk) -->
+    <Style x:Key="HeaderGridStyle" TargetType="Grid">
+        <Setter Property="Padding" Value="16,10" />
+        <Setter Property="BackgroundColor" Value="#222222" />
+        <Setter Property="ColumnDefinitions" Value="Auto,Auto,*" />
+    </Style>
+
+    <!-- ICON-BUTTONS IN HEADER (hamburger + home) -->
+    <Style x:Key="HeaderIconButtonStyle" TargetType="Button">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="WidthRequest" Value="40" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="White" />
+    </Style>
+
+    <!-- TITEL IN HEADER -->
+    <Style x:Key="HeaderTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="TextColor" Value="White" />
+    </Style>
+
+    <!-- SIDE MENU CONTAINER -->
+    <Style x:Key="SideMenuStyle" TargetType="VerticalStackLayout">
+        <Setter Property="BackgroundColor" Value="#333333" />
+        <Setter Property="Padding" Value="16" />
+        <Setter Property="Spacing" Value="10" />
+    </Style>
+
+    <!-- "MENU" LABEL IN SIDE MENU -->
+    <Style x:Key="SideMenuTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="TextColor" Value="White" />
+    </Style>
+
+    <!-- WELKOM-TITEL OP SUBPAGE -->
+    <Style x:Key="SubPageWelcomeLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+
+    <!-- PAGE3: titel bovenaan -->
+    <Style x:Key="UserOverviewTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <!-- PAGE3: beschrijving onder titel -->
+    <Style x:Key="UserOverviewDescriptionLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="Gray" />
+    </Style>
+
+    <!-- PAGE3: statuslabel onder de zoekbalk -->
+    <Style x:Key="StatusLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="Gray" />
+    </Style>
+
+    <!-- PAGE3: foutmeldingstekst -->
+    <Style x:Key="ErrorLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="DarkRed" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <!-- PAGE3: lege-staat tekst in CollectionView -->
+    <Style x:Key="EmptyStateLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="Gray" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!-- PAGE3: access denied kaart -->
+    <Style x:Key="AccessDeniedFrameStyle" TargetType="Frame">
+        <Setter Property="BorderColor" Value="DarkRed" />
+        <Setter Property="BackgroundColor" Value="MistyRose" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+    <Style x:Key="AccessDeniedLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="DarkRed" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <!-- PAGE3: kolomkop-knoppen in de gebruikerslijst -->
+    <Style x:Key="UserListHeaderButtonStyle" TargetType="Button">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+    </Style>
+
+
+</ResourceDictionary>
