@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Urenregistratie_Applicatie.Models
 {
-    class Class1
+    class Class4
     {
     }
 }

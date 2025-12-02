@@ -54,4 +54,17 @@ public class UserService
             })
             .ToList();
     }
+    public Task DeleteUserAsync(string id)
+    {
+        var user = _seedUsers.FirstOrDefault(u => u.Id == id);
+        if (user is not null)
+        {
+            _seedUsers.Remove(user);  // verwijdert uit de mock-lijst
+        }
+
+        // In het “echte” systeem zou je hier een HTTP DELETE naar de API doen.
+        // Urenregistraties worden dan NIET gecascade-deleted (alleen user zelf).
+        return Task.CompletedTask;
+    }
 }
+
