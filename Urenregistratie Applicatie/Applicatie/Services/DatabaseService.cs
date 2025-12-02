@@ -1,4 +1,6 @@
-﻿using SQLite;
+﻿namespace Urenregistratie_Applicatie.Services;
+
+using SQLite;
 using Urenregistratie_Applicatie.Models;
 
 public class DatabaseService
@@ -17,9 +19,9 @@ public class DatabaseService
     public SQLiteAsyncConnection Connection => _db;
 
     // Example CRUD:
-    //public Task<int> AddGebruiker(Gebruiker g)
-    //{
-   //     return _db.InsertAsync(g);
-   // }
+   // public Task<int> AddGebruiker(Gebruiker g)
+  //  {
+  //     return _db.InsertAsync(g);
+  // }
 }
 

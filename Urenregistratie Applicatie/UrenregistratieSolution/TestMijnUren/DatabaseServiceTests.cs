@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using System.Threading.Tasks;
 using Urenregistratie_Applicatie.Models;
 
-namespace Test
+namespace Urenregistratie.Tests
 {
     [TestFixture]
     public class DatabaseServiceTests
@@ -12,8 +12,10 @@ namespace Test
         [SetUp]
         public async Task Setup()
         {
+            // Gebruik in-memory SQLite database
             _db = new DatabaseService(":memory:");
 
+            // Zorg dat alle tabellen bestaan
             await _db.Connection.CreateTableAsync<Gebruiker>();
             await _db.Connection.CreateTableAsync<Bedrijf>();
             await _db.Connection.CreateTableAsync<Project>();
@@ -41,6 +43,20 @@ namespace Test
         }
 
         [Test]
+        public async Task Insert_And_Retrieve_Bedrijf_Works()
+        {
+            var b = new Bedrijf { Naam = "Acme Corp" };
+            await _db.Connection.InsertAsync(b);
+
+            var dbBedrijf = await _db.Connection.Table<Bedrijf>()
+                .Where(x => x.Id == b.Id)
+                .FirstOrDefaultAsync();
+
+            Assert.IsNotNull(dbBedrijf);
+            Assert.AreEqual(b.Naam, dbBedrijf.Naam);
+        }
+
+        [Test]
         public async Task Insert_And_Retrieve_Project_With_Bedrijf()
         {
             var b = new Bedrijf { Naam = "Acme Corp" };
@@ -64,17 +80,17 @@ namespace Test
             var gebruiker = new Gebruiker { Naam = "Jan", Email = "jan@test.com" };
             await _db.Connection.InsertAsync(gebruiker);
 
-            var bedrijf = new Bedrijf { Naam = "Acme" };
+            var bedrijf = new Bedrijf { Naam = "Acme Corp" };
             await _db.Connection.InsertAsync(bedrijf);
 
-            var project = new Project { Naam = "Test", BedrijfId = bedrijf.Id };
+            var project = new Project { Naam = "Project X", BedrijfId = bedrijf.Id };
             await _db.Connection.InsertAsync(project);
 
             var u = new Urenregistratie
             {
                 GebruikerId = gebruiker.Id,
                 ProjectId = project.Id,
-                Uren = 5
+                Uren = 8
             };
 
             await _db.Connection.InsertAsync(u);
@@ -84,7 +100,7 @@ namespace Test
                 .FirstOrDefaultAsync();
 
             Assert.IsNotNull(dbU);
-            Assert.AreEqual(5, dbU.Uren);
+            Assert.AreEqual(8, dbU.Uren);
             Assert.AreEqual(gebruiker.Id, dbU.GebruikerId);
             Assert.AreEqual(project.Id, dbU.ProjectId);
         }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SQLite;
 
 namespace Urenregistratie_Applicatie.Models
@@ -18,20 +14,19 @@ namespace Urenregistratie_Applicatie.Models
         [Indexed]
         public int project_id { get; set; }
 
-        public string datum { get; set; }
-        public double aantal_uren { get; set; }
+        public string datum { get; set; } = string.Empty;
+        public double aantal_uren { get; set; } = 0.0;
 
-        public string omschrijving { get; set; }
-        public string status { get; set; }
+        public string omschrijving { get; set; } = string.Empty;
+        public string status { get; set; } = string.Empty;
 
-        public string aanmaakdatum { get; set; }
-        public string laatst_gewijzigd { get; set; }
+        public string aanmaakdatum { get; set; } = DateTime.Now.ToString("yyyy-MM-dd");
+        public string laatst_gewijzigd { get; set; } = DateTime.Now.ToString("yyyy-MM-dd");
 
-        // FK naar gebruiker (goedkeurder) — nullable!
         [Indexed]
         public int? goedgekeurd_door_id { get; set; }
 
-        public string goedkeuringsdatum { get; set; }
-        public string goedkeuring_toelichting { get; set; }
+        public string goedkeuringsdatum { get; set; } = string.Empty;
+        public string goedkeuring_toelichting { get; set; } = string.Empty;
     }
 }

@@ -1,25 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SQLite;
 
 namespace Urenregistratie_Applicatie.Models
 {
-
     public class Gebruiker
     {
         [PrimaryKey, AutoIncrement]
         public int gebruiker_id { get; set; }
 
-        public string voornaam { get; set; }
-        public string achternaam { get; set; }
-        public string email { get; set; }
-        public string wachtwoord_hash { get; set; }
-        public string rol { get; set; }
-        public string aanmaakdatum { get; set; }
-        public bool actief { get; set; }
+        public string voornaam { get; set; } = string.Empty;
+        public string achternaam { get; set; } = string.Empty;
+        public string email { get; set; } = string.Empty;
+        public string wachtwoord_hash { get; set; } = string.Empty;
+        public string rol { get; set; } = string.Empty;
+        public string aanmaakdatum { get; set; } = DateTime.Now.ToString("yyyy-MM-dd");
+        public bool actief { get; set; } = true;
 
         [Indexed]
         public int bedrijf_id { get; set; }
