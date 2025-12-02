@@ -1,11 +1,145 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Urenregistratie_Applicatie.Views.Page3">
-    <VerticalStackLayout>
-        <Label 
-            Text="Dit is pagina 3"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+             x:Class="Urenregistratie_Applicatie.Views.Page3"
+             Loaded="OnLoaded">
+
+    <VerticalStackLayout Padding="20" Spacing="12">
+
+        <!-- Titel + beschrijving -->
+        <Label Text="Gebruikersoverzicht"
+               Style="{StaticResource UserOverviewTitleLabelStyle}" />
+
+        <Label Text="Als administratiemedewerker kun je hier alle accounts beheren en controleren."
+               Style="{StaticResource UserOverviewDescriptionLabelStyle}" />
+
+        <!-- Access denied-kaart voor niet-admins -->
+        <Frame x:Name="AccessDeniedCard"
+               IsVisible="False"
+               Style="{StaticResource AccessDeniedFrameStyle}">
+            <Label Text="Alleen admins hebben toegang tot deze pagina."
+                   Style="{StaticResource AccessDeniedLabelStyle}" />
+        </Frame>
+
+        <!-- Admin-inhoud (alleen zichtbaar voor admins) -->
+        <VerticalStackLayout x:Name="AdminContent"
+                             Spacing="12"
+                             IsVisible="False">
+
+            <!-- Titel + knoppen boven tabel -->
+            <Grid ColumnDefinitions="*,Auto"
+                  VerticalOptions="Center">
+                <HorizontalStackLayout Spacing="8">
+                    <Button Text="Gebruiker Toevoegen"
+                            Clicked="OnAddUsersClicked"
+                             />
+                </HorizontalStackLayout>
+            </Grid>
+
+            <!-- Zoekbalk -->
+            <SearchBar x:Name="UserSearchBar"
+                       Placeholder="Zoek op naam of e-mail"
+                       TextChanged="OnSearchTextChanged" />
+
+            <!-- Tabel met gebruikers -->
+            <Frame Padding="0">
+                <Grid RowDefinitions="Auto,*">
+
+                    <!-- Header -->
+                    <Grid ColumnDefinitions="2*,2*,3*,1.5*,2*,1*,1*"
+                          Padding="12"
+                          BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray950}}">
+
+                        <Button x:Name="FirstNameHeader"
+                                Grid.Column="0"
+                                Text="Voornaam"
+                                Clicked="OnSortByFirstName"
+                                Style="{StaticResource UserListHeaderButtonStyle}" />
+
+                        <Button x:Name="LastNameHeader"
+                                Grid.Column="1"
+                                Text="Achternaam"
+                                Clicked="OnSortByLastName"
+                                Style="{StaticResource UserListHeaderButtonStyle}" />
+
+                        <Button x:Name="EmailHeader"
+                                Grid.Column="2"
+                                Text="E-mail"
+                                Clicked="OnSortByEmail"
+                                Style="{StaticResource UserListHeaderButtonStyle}" />
+
+                        <Button x:Name="RoleHeader"
+                                Grid.Column="3"
+                                Text="Rol"
+                                Clicked="OnSortByRole"
+                                Style="{StaticResource UserListHeaderButtonStyle}" />
+
+                        <Button x:Name="UserIdHeader"
+                                Grid.Column="4"
+                                Text="Gebruikers-ID"
+                                Clicked="OnSortById"
+                                Style="{StaticResource UserListHeaderButtonStyle}" />
+                    </Grid>
+
+                    <!-- Gebruikerslijst -->
+                    <CollectionView x:Name="UsersCollection"
+                                    Grid.Row="1"
+                                    ItemsLayout="VerticalList"
+                                    SelectionMode="None"
+                                    ItemsSource="{Binding}">
+                        <CollectionView.EmptyView>
+                            <Label x:Name="EmptyStateLabel"
+                                   Text="Geen gebruikers gevonden"
+                                   Style="{StaticResource EmptyStateLabelStyle}" />
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="2*,2*,3*,1.5*,2*,0.5*,0.5*"
+                                      Padding="12"
+                                      ColumnSpacing="8"
+                                      BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}">
+
+                                    <Label Grid.Column="0"
+                                           Text="{Binding FirstName}" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding LastName}" />
+                                    <Label Grid.Column="2"
+                                           Text="{Binding Email}" />
+                                    <Label Grid.Column="3"
+                                           Text="{Binding Role}" />
+                                    <Label Grid.Column="4"
+                                           Text="{Binding Id}" />
+                                    <!-- Gebruiker verwijderen knop -->
+                                    <Button
+                                      Grid.Column="5"
+                                      Clicked="OnDeleteUsersClicked"
+                                      Text="🗑"
+                                      FontSize="18"
+                                      BackgroundColor="Purple"
+                                      HorizontalOptions="End"
+                                      VerticalOptions="Center"
+                                      Padding="0"
+                                      Margin="0,0,0,0" />
+                                    <!-- gebruiker bewerken knop -->
+                                    <Button
+                                      Grid.Column="6"
+                                      Clicked="OnEditUsersClicked"
+                                      Text="✎"
+                                      FontSize="18"
+                                      BackgroundColor="Purple"
+                                      HorizontalOptions="End"
+                                      VerticalOptions="Center"
+                                      Padding="0"
+                                      Margin="0,0,0,0" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </Grid>
+            </Frame>
+        </VerticalStackLayout>
+
     </VerticalStackLayout>
 </ContentView>
