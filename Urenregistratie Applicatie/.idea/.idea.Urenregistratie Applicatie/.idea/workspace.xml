@@ -9,7 +9,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c65a6934-bbc4-41c8-b782-3ec0504dab17" name="Changes" comment="" />
+    <list default="true" id="c65a6934-bbc4-41c8-b782-3ec0504dab17" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Applicatie/Models/Bedrijf.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Applicatie/Models/Gebruiker.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Applicatie/Models/Project.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Applicatie/Models/Urenregistratie.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Applicatie/Services/DatabaseService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Bedrijf.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Bedrijf.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Gebruiker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Gebruiker.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Project.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Project.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Urenregistratie.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Urenregistratie.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Services/DatabaseService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Services/DatabaseService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Urenregistratie Applicatie.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Urenregistratie Applicatie.csproj" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="develop" />
+        <entry key="$PROJECT_DIR$/.." value="feature/arion" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -61,6 +73,7 @@
     &quot;DeviceKind#com.jetbrains.rider.run.multiPlatform.ios.devices.IOSDevicesProvider&quot;: &quot;Simulator&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;feature/Adjoa&quot;,
     &quot;macOS.Urenregistratie Applicatie.executor&quot;: &quot;Run&quot;,
@@ -112,6 +125,9 @@
       <workItem from="1764612537430" duration="5484000" />
       <workItem from="1764700767523" duration="1013000" />
       <workItem from="1764701785318" duration="1195000" />
+      <workItem from="1764702986393" duration="288000" />
+      <workItem from="1764703277863" duration="985000" />
+      <workItem from="1764704355137" duration="1616000" />
     </task>
     <servers />
   </component>
