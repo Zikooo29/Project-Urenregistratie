@@ -62,7 +62,7 @@ public class UserService
             _seedUsers.Remove(user);  // verwijdert uit de mock-lijst
         }
 
-        // In het “echte” systeem zou je hier een HTTP DELETE naar de API doen.
+        
         // Urenregistraties worden dan NIET gecascade-deleted (alleen user zelf).
         return Task.CompletedTask;
     }
