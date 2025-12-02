@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
@@ -45,5 +45,56 @@
     <Style x:Key="SubPageWelcomeLabelStyle" TargetType="Label">
         <Setter Property="FontSize" Value="18" />
     </Style>
+
+    <!-- PAGE3: titel bovenaan -->
+    <Style x:Key="UserOverviewTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <!-- PAGE3: beschrijving onder titel -->
+    <Style x:Key="UserOverviewDescriptionLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="Gray" />
+    </Style>
+
+    <!-- PAGE3: statuslabel onder de zoekbalk -->
+    <Style x:Key="StatusLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="Gray" />
+    </Style>
+
+    <!-- PAGE3: foutmeldingstekst -->
+    <Style x:Key="ErrorLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="DarkRed" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <!-- PAGE3: lege-staat tekst in CollectionView -->
+    <Style x:Key="EmptyStateLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="Gray" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!-- PAGE3: access denied kaart -->
+    <Style x:Key="AccessDeniedFrameStyle" TargetType="Frame">
+        <Setter Property="BorderColor" Value="DarkRed" />
+        <Setter Property="BackgroundColor" Value="MistyRose" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+    <Style x:Key="AccessDeniedLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="DarkRed" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <!-- PAGE3: kolomkop-knoppen in de gebruikerslijst -->
+    <Style x:Key="UserListHeaderButtonStyle" TargetType="Button">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+    </Style>
+
 
 </ResourceDictionary>

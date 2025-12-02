@@ -43,7 +43,7 @@
                 <Button Text="Page 2"
                         Clicked="OnPage2Clicked" />
 
-                <Button Text="Page 3"
+                <Button Text="Gebruikers"
                         Clicked="OnPage3Clicked" />
 
             </VerticalStackLayout>
