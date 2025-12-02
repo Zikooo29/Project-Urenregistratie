@@ -23,6 +23,8 @@ public partial class Page3 : ContentView
     // Admin toegangscontrole, true = toegang tot de scherm, false = geen toegang
     private bool _isAdminUser = true;
 
+    private readonly string _currentUserId = "#2"; // simulatie van ingelogde gebruiker
+
     public Page3()
     {
         InitializeComponent();
@@ -201,6 +203,55 @@ public partial class Page3 : ContentView
         await Application.Current.MainPage.DisplayAlert("Melding", "Tijdelijke actie toevoegen gebruiker", "Kaas");
     private async void OnEditUsersClicked(object sender, EventArgs e) =>
         await Application.Current.MainPage.DisplayAlert("Melding", "Tijdelijke actie gebruiker wijzingen", "Pepernoten");
-    private async void OnDeleteUsersClicked(object sender, EventArgs e) =>
-        await Application.Current.MainPage.DisplayAlert("Melding", "Tijdelijke knop voor verwijderen gebruiker", "Eieren");
+    private async void OnDeleteUsersClicked(object sender, EventArgs e)
+    {
+        if (sender is not Button button)
+            return;
+
+        // Haal de bijbehorende user uit de CommandParameter
+        var user = button.CommandParameter as UserAccount;
+        if (user is null)
+            return;
+
+        // Geen self-delete door admin
+        if (user.Id == _currentUserId)
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Niet toegestaan",
+                "Je kunt je eigen account niet verwijderen.",
+                "OK");
+            return;
+        }
+
+        // 1. Bevestigingsmodal tonen
+        bool bevestigen = await Application.Current.MainPage.DisplayAlert(
+            "Gebruiker verwijderen",
+            $"Weet je zeker dat je {user.FirstName} {user.LastName} wilt verwijderen?",
+            "Verwijderen",
+            "Annuleren");
+
+        // 2. Bij annuleren: niets doen
+        if (!bevestigen)
+            return;
+
+        // 3. Verwijder gebruiker via service
+        await _userService.DeleteUserAsync(user.Id);
+
+        // 4. Verwijder uit de lokale lijsten en UI direct verversen
+        var userInAll = _allUsers.FirstOrDefault(u => u.Id == user.Id);
+        if (userInAll is not null)
+        {
+            _allUsers.Remove(userInAll);
+        }
+
+        // Dit herbouwt _visibleUsers o.b.v. filters & sortering
+        ApplyFiltersAndSorting();
+
+        // 5. Succesmelding
+        await Application.Current.MainPage.DisplayAlert(
+            "Succes",
+            "De gebruiker is verwijderd uit het overzicht.",
+            "OK");
+    }
+
 }
