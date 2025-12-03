@@ -66,5 +66,13 @@ public class UserService
         // Urenregistraties worden dan NIET gecascade-deleted (alleen user zelf).
         return Task.CompletedTask;
     }
+    
+    //Add user task
+    public Task AddUserAsync(UserAccount user)
+    {
+        _seedUsers.Add(user);   
+        return Task.CompletedTask;
+    }
+
 }
 
