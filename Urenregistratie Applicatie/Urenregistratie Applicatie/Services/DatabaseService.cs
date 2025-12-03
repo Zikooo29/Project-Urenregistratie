@@ -19,9 +19,16 @@ public class DatabaseService
     public SQLiteAsyncConnection Connection => _db;
 
     // Example CRUD:
-   // public Task<int> AddGebruiker(Gebruiker g)
-  //  {
-  //     return _db.InsertAsync(g);
-  // }
+    // public Task<int> AddGebruiker(Gebruiker g)
+    //  {
+    //     return _db.InsertAsync(g);
+    // }
+
+    // later van toepassing in de volgende sprint!!!!
+   // public Task<int> DeleteGebruiker(int id)
+   // {
+    //    return _db.DeleteAsync<Gebruiker>(id);
+   // }
+
 }
 
