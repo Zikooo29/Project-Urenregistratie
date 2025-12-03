@@ -44,15 +44,16 @@ public class UserService
         await Task.Delay(250);
 
         return _seedUsers
-            .Select(user => new UserAccount
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Role = user.Role,
-            })
+         .Select(user => new UserAccount
+          {
+              Id = user.Id,
+              FirstName = user.FirstName,
+              LastName = user.LastName,
+              Email = user.Email,
+              Role = user.Role,
+          })
             .ToList();
+
     }
     public Task DeleteUserAsync(string id)
     {
@@ -62,8 +63,6 @@ public class UserService
             _seedUsers.Remove(user);  // verwijdert uit de mock-lijst
         }
 
-        // In het “echte” systeem zou je hier een HTTP DELETE naar de API doen.
-        // Urenregistraties worden dan NIET gecascade-deleted (alleen user zelf).
         return Task.CompletedTask;
     }
 }

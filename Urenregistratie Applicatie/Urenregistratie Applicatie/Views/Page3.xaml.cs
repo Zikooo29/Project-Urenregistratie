@@ -1,5 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿
 using Microsoft.Extensions.Logging;
+using System.Collections.ObjectModel;
 using Urenregistratie_Applicatie.Models;
 using Urenregistratie_Applicatie.Services;
 
@@ -13,7 +14,7 @@ public partial class Page3 : ContentView
     private readonly ObservableCollection<UserAccount> _visibleUsers = new();
 
     // Uit service mock-data
-    private readonly UserService _userService = new();
+   // private readonly UserService _userService = new();
 
     // Zoeken/sorteer instellingen
     private string _searchTerm = string.Empty;
@@ -25,11 +26,13 @@ public partial class Page3 : ContentView
 
     private readonly string _currentUserId = "#2"; // simulatie van ingelogde gebruiker
 
-    public Page3()
+    private readonly UserService _userService;
+
+    public Page3(UserService userService)
     {
         InitializeComponent();
 
-        // UI lijst koppelen aan zichtbare lijst
+        _userService = userService;
         UsersCollection.ItemsSource = _visibleUsers;
     }
 
