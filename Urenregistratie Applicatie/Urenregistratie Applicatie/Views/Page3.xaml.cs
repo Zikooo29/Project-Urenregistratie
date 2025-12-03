@@ -202,8 +202,12 @@ public partial class Page3 : ContentView
     }
 
     // Tijdelijke knoppen voor gebruikers toevoegen, wijzigen en gebruikers verwijderen.
-    private async void OnAddUsersClicked(object sender, EventArgs e) =>
-        await Application.Current.MainPage.DisplayAlert("Melding", "Tijdelijke actie toevoegen gebruiker", "Kaas");
+    private async void OnAddUsersClicked(object sender, EventArgs e) 
+    {
+        // Popup leegmaken en tonen
+        ClearAddUserForm();
+        AddUserPopup.IsVisible = true;
+    }
     private async void OnEditUsersClicked(object sender, EventArgs e) =>
         await Application.Current.MainPage.DisplayAlert("Melding", "Tijdelijke actie gebruiker wijzingen", "Pepernoten");
     private async void OnDeleteUsersClicked(object sender, EventArgs e)
@@ -256,5 +260,158 @@ public partial class Page3 : ContentView
             "De gebruiker is verwijderd uit het overzicht.",
             "OK");
     }
+// ADJOA Formulier leegmaken en standaardwaarden instellen
+private void ClearAddUserForm()
+{
+    FirstNameEntry.Text = string.Empty;
+    LastNameEntry.Text = string.Empty;
+    EmailEntry.Text = string.Empty;
+
+    // Rol standaard op "Werknemer" zetten
+    RolePicker.SelectedIndex = 0;
+
+    FirstNameErrorLabel.IsVisible = false;
+    LastNameErrorLabel.IsVisible = false;
+    EmailErrorLabel.IsVisible = false;
+    RoleErrorLabel.IsVisible = false;
+
+    ConfirmAddUserButton.IsEnabled = false;
+}
+
+// 🔹 Wordt aangeroepen als een veld verandert (TextChanged/SelectedIndexChanged)
+private void OnAddUserFieldChanged(object sender, EventArgs e)
+{
+    ValidateAddUserForm();
+}
+
+// 🔹 Controleren of alle invoer geldig is
+private void ValidateAddUserForm()
+{
+    bool isValid = true;
+
+    // Voornaam
+    if (string.IsNullOrWhiteSpace(FirstNameEntry.Text))
+    {
+        FirstNameErrorLabel.IsVisible = true;
+        isValid = false;
+    }
+    else
+    {
+        FirstNameErrorLabel.IsVisible = false;
+    }
+
+    // Achternaam
+    if (string.IsNullOrWhiteSpace(LastNameEntry.Text))
+    {
+        LastNameErrorLabel.IsVisible = true;
+        isValid = false;
+    }
+    else
+    {
+        LastNameErrorLabel.IsVisible = false;
+    }
+
+    // E-mail
+    var email = EmailEntry.Text?.Trim() ?? string.Empty;
+
+    if (string.IsNullOrWhiteSpace(email) || !IsValidEmail(email))
+    {
+        EmailErrorLabel.Text = "Vul een geldig e-mailadres in";
+        EmailErrorLabel.IsVisible = true;
+        isValid = false;
+    }
+    else if (_allUsers.Any(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase)))
+    {
+        EmailErrorLabel.Text = "Dit e-mailadres bestaat al";
+        EmailErrorLabel.IsVisible = true;
+        isValid = false;
+    }
+    else
+    {
+        EmailErrorLabel.IsVisible = false;
+    }
+
+    // Rol
+    if (RolePicker.SelectedIndex < 0)
+    {
+        RoleErrorLabel.IsVisible = true;
+        isValid = false;
+    }
+    else
+    {
+        RoleErrorLabel.IsVisible = false;
+    }
+
+    // Bevestigen-knop alleen actief als alles goed is
+    ConfirmAddUserButton.IsEnabled = isValid;
+}
+
+// 🔹 Heel simpele e-mailcheck
+private bool IsValidEmail(string email)
+{
+    return email.Contains("@") && email.Contains(".");
+}
+
+// 🔹 Annuleren: popup sluiten
+private void OnCancelAddUserClicked(object sender, EventArgs e)
+{
+    AddUserPopup.IsVisible = false;
+}
+
+// 🔹 Bevestigen: gebruiker aanmaken, opslaan en lijst verversen
+private async void OnConfirmAddUserClicked(object sender, EventArgs e)
+{
+    // Extra check: als toch iets niet klopt
+    ValidateAddUserForm();
+    if (!ConfirmAddUserButton.IsEnabled)
+        return;
+
+    var newUser = new UserAccount
+    {
+        Id = GenerateNewUserId(),
+        FirstName = FirstNameEntry.Text.Trim(),
+        LastName = LastNameEntry.Text.Trim(),
+        Email = EmailEntry.Text.Trim(),
+        Role = RolePicker.SelectedItem?.ToString() ?? "Werknemer"
+    };
+
+    // 1. Opslaan in je service (mock data)
+    await _userService.AddUserAsync(newUser);
+
+    // 2. Toevoegen aan lokale lijst
+    _allUsers.Add(newUser);
+
+    // 3. Filters en sortering opnieuw toepassen zodat hij in het overzicht komt
+    ApplyFiltersAndSorting();
+
+    // 4. Popup sluiten
+    AddUserPopup.IsVisible = false;
+
+    // 5. Succesmelding
+    await Application.Current.MainPage.DisplayAlert(
+        "Succes",
+        "De gebruiker is succesvol toegevoegd.",
+        "OK");
+}
+
+// 🔹 Nieuwe ID maken: pakt hoogste nummer en telt er 1 bij op (#5, #6, etc.)
+private string GenerateNewUserId()
+{
+    int maxId = 0;
+
+    foreach (var user in _allUsers)
+    {
+        if (!string.IsNullOrWhiteSpace(user.Id) &&
+            user.Id.StartsWith("#") &&
+            int.TryParse(user.Id.Substring(1), out int num))
+        {
+            if (num > maxId)
+                maxId = num;
+        }
+    }
+
+    return "#" + (maxId + 1);
+}
 
 }
+
