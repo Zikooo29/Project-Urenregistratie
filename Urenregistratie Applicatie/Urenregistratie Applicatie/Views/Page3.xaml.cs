@@ -268,7 +268,7 @@ private void ClearAddUserForm()
     EmailEntry.Text = string.Empty;
 
     // Rol standaard op "Werknemer" zetten
-    RolePicker.SelectedIndex = 0;
+    RolePicker.SelectedIndex = -1;
 
     FirstNameErrorLabel.IsVisible = false;
     LastNameErrorLabel.IsVisible = false;
@@ -278,13 +278,13 @@ private void ClearAddUserForm()
     ConfirmAddUserButton.IsEnabled = false;
 }
 
-// 🔹 Wordt aangeroepen als een veld verandert (TextChanged/SelectedIndexChanged)
+// Wordt aangeroepen als een veld verandert (TextChanged/SelectedIndexChanged)
 private void OnAddUserFieldChanged(object sender, EventArgs e)
 {
     ValidateAddUserForm();
 }
 
-// 🔹 Controleren of alle invoer geldig is
+// Controleren of alle invoer geldig is
 private void ValidateAddUserForm()
 {
     bool isValid = true;
@@ -346,19 +346,19 @@ private void ValidateAddUserForm()
     ConfirmAddUserButton.IsEnabled = isValid;
 }
 
-// 🔹 Heel simpele e-mailcheck
+// Heel simpele e-mailcheck
 private bool IsValidEmail(string email)
 {
     return email.Contains("@") && email.Contains(".");
 }
 
-// 🔹 Annuleren: popup sluiten
+//Annuleren: popup sluiten
 private void OnCancelAddUserClicked(object sender, EventArgs e)
 {
     AddUserPopup.IsVisible = false;
 }
 
-// 🔹 Bevestigen: gebruiker aanmaken, opslaan en lijst verversen
+// Bevestigen: gebruiker aanmaken, opslaan en lijst verversen
 private async void OnConfirmAddUserClicked(object sender, EventArgs e)
 {
     // Extra check: als toch iets niet klopt

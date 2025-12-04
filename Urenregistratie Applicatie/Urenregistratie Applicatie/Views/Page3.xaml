@@ -145,7 +145,7 @@
 
     </VerticalStackLayout>
         
-            <!-- 🔹 POPUP VOOR GEBRUIKER TOEVOEGEN -->
+            <!--POPUP VOOR GEBRUIKER TOEVOEGEN -->
         <Grid x:Name="AddUserPopup"
               BackgroundColor="#80000000"  
               IsVisible="False"
@@ -203,8 +203,12 @@
                             SelectedIndexChanged="OnAddUserFieldChanged">
                         <Picker.Items>
                             <x:String>Werknemer</x:String>
-                            <x:String>Admin</x:String>
+                            <x:String>Administratieve werknemer</x:String>
+                            <x:String>Opdrachtgever</x:String>
+                            <x:String>Projectleider</x:String>
+                            <x:String>Manager</x:String>
                         </Picker.Items>
+
                     </Picker>
                     <Label x:Name="RoleErrorLabel"
                            Text="Rol is verplicht"
