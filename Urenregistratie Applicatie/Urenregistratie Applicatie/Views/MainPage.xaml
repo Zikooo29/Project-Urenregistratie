@@ -37,10 +37,10 @@
                 <Label Text="Menu"
                        Style="{StaticResource SideMenuTitleLabelStyle}" />
 
-                <Button Text="Page 1"
+                <Button Text="Ureninvullen"
                         Clicked="OnPage1Clicked" />
 
-                <Button Text="Page 2"
+                <Button Text="Urenoverzicht"
                         Clicked="OnPage2Clicked" />
 
                 <Button Text="Gebruikers"

@@ -18,7 +18,7 @@ public class UserService
             FirstName = "Naam1",
             LastName = "Achternaam1",
             Email = "test1@hotmail.nl",
-            Role = "Rol",
+            Role = "Administratie",
         },
         new UserAccount
         {
@@ -26,7 +26,7 @@ public class UserService
             FirstName = "Naam2",
             LastName = "Achternaam2",
             Email = "test2@hotmail.nl",
-            Role = "Rol",
+            Role = "Werknemer",
         },
         new UserAccount
         {
@@ -34,7 +34,7 @@ public class UserService
             FirstName = "Naam3",
             LastName = "Achternaam3",
             Email = "test3@hotmail.nl",
-            Role = "Rol",
+            Role = "Werkgever",
         },
     };
 
