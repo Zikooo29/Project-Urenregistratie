@@ -67,7 +67,7 @@ public class DatabaseService
     private async Task SeedTestUsers()
     {
         var existing = await _db.Table<Gebruiker>().ToListAsync();
-        if (existing.Count > 0)
+        if (existing.Count > 2)
             return; // database is al gevuld → niet opnieuw seeden
 
         var testUsers = new List<Gebruiker>
@@ -77,21 +77,7 @@ public class DatabaseService
             voornaam = "Jan",
             achternaam = "Jansen",
             email = "jan@example.com",
-            rol = "Admin"
-        },
-        new Gebruiker
-        {
-            voornaam = "Piet",
-            achternaam = "Pieters",
-            email = "piet@example.com",
             rol = "Medewerker"
-        },
-        new Gebruiker
-        {
-            voornaam = "Kees",
-            achternaam = "Klaassen",
-            email = "kees@example.com",
-            rol = "Manager"
         }
     };
 

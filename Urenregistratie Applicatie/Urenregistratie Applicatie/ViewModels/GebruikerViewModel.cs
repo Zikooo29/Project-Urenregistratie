@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Urenregistratie_Applicatie.Models
+namespace Urenregistratie_Applicatie.ViewModels
 {
-    public class UserAccount
+    public class GebruikerViewModel
     {
         public string Id { get; init; } = string.Empty;
 

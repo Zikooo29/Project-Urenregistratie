@@ -21,7 +21,7 @@ namespace Urenregistratie_Applicatie
             var databaseService = new DatabaseService(dbPath);
             builder.Services.AddSingleton(s => databaseService);
 
-            builder.Services.AddSingleton<UserService>();
+        
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<Page1>();
             builder.Services.AddSingleton<Page2>();

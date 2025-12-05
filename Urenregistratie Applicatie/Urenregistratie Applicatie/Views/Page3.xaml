@@ -139,7 +139,7 @@
 
     </VerticalStackLayout>
         
-            <!--POPUP VOOR GEBRUIKER TOEVOEGEN -->
+            <!--POPUP VOOR GEBRUIKER TOEVOEGEN OF WIJZIGEN -->
         <Grid x:Name="AddUserPopup"
               BackgroundColor="#80000000"  
               IsVisible="False"
@@ -155,7 +155,8 @@
 
                 <VerticalStackLayout Spacing="8">
 
-                    <Label Text="Nieuwe gebruiker toevoegen"
+                    <Label x:Name="PopupTitle"
+                           Text="Nieuwe gebruiker toevoegen"
                            FontAttributes="Bold"
                            FontSize="18"
                            HorizontalOptions="Center" />
