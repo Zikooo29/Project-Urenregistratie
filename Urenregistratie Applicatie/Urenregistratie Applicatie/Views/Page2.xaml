@@ -4,7 +4,7 @@
              x:Class="Urenregistratie_Applicatie.Views.Page2">
     <VerticalStackLayout>
         <Label 
-            Text="Dit is pagina 2"
+            Text="WIP, Omgeving nog onder constructie!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
     </VerticalStackLayout>

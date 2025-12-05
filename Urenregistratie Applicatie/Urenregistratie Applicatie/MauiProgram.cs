@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Urenregistratie_Applicatie.Services;
+using Urenregistratie_Applicatie.Views;
 
 namespace Urenregistratie_Applicatie
 {
@@ -15,11 +17,21 @@ namespace Urenregistratie_Applicatie
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddSingleton<UserService>();
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<Page1>();
+            builder.Services.AddSingleton<Page2>();
+            builder.Services.AddSingleton<Page3>();
+
+            
+
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
         }
     }
 }
+

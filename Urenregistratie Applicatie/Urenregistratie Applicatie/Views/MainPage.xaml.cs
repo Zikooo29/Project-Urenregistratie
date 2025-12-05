@@ -4,49 +4,58 @@ namespace Urenregistratie_Applicatie.Views;
 
 public partial class MainPage : ContentPage
 {
+    private readonly Page3 _page3;
+    private readonly Page1 _page1;
+    private readonly Page2 _page2;
+    private readonly View _defaultContent;
 
-    private View _defaultContent;
-    public MainPage()
+    public MainPage(Page1 page1, Page2 page2, Page3 page3)
     {
         InitializeComponent();
 
+        _page1 = page1;
+        _page2 = page2;
+        _page3 = page3;
+
         _defaultContent = SubPage.Content;
-
-
-        // SubPage.Content = new Page1(); komt hier (is optioneel)
     }
 
-    // Menu knop
-    private void OnMenuButtonClicked(object sender, EventArgs e)
-    {
-        SideMenu.IsVisible = !SideMenu.IsVisible;
-    }
+
+   
 
     // Home knop
     private void OnMainMenuClicked(object sender, EventArgs e)
     {
-        SideMenu.IsVisible = false;
+        
         SubPage.Content = _defaultContent;
+        HeaderTitle.Text = "Urenregistratie";
+        this.Title = "Welkom bij MijnUren";
 
     }
 
     //Pagina 1 knop
     private void OnPage1Clicked(object sender, EventArgs e)
     {
-        SideMenu.IsVisible = false;
-        SubPage.Content = new Page1();
+
+        SubPage.Content = _page1;
+        HeaderTitle.Text = "Ureninvullen";
+        this.Title = "Ureninvullen";
     }
 
     //Pagina 2 knop
     private void OnPage2Clicked(object sender, EventArgs e)
     {
-        SideMenu.IsVisible = false;
-        SubPage.Content = new Page2();
+        
+        SubPage.Content = _page2;
+        HeaderTitle.Text = "Urenoverzicht";
+        this.Title = "Urenoverzicht";
     }
     //Pagina 3 knop
     private void OnPage3Clicked(object sender, EventArgs e)
     {
-        SideMenu.IsVisible = false;
-        SubPage.Content = new Page3();
+
+        SubPage.Content = _page3;
+        HeaderTitle.Text = "Gebruikersoverzict";
+        this.Title = "Gebruikersoverzicht";
     }
 }
