@@ -214,6 +214,8 @@ public partial class Page3 : ContentView
     }
     private async void OnEditUsersClicked(object sender, EventArgs e) 
     {
+        ValidateAddUserForm();
+
         if (sender is not Button button)
             return;
 
@@ -316,6 +318,17 @@ private void ClearAddUserForm()
     ConfirmAddUserButton.Text = "Bevestigen";
 }
 
+// ANNULEREN knop (popup sluiten en edit-state resetten)
+private void OnCancelAddUserClicked(object sender, EventArgs e)
+{
+    AddUserPopup.IsVisible = false;
+    
+    // reset edit-state (geen wijziging doorgevoerd)
+    _isEditing = false;
+    _editingUser = null;
+    ConfirmAddUserButton.Text = "Bevestigen";
+}
+
 // Wordt aangeroepen als een veld verandert (TextChanged/SelectedIndexChanged)
 private void OnAddUserFieldChanged(object sender, EventArgs e)
 {
@@ -366,7 +379,7 @@ private void ValidateAddUserForm()
         EmailErrorLabel.IsVisible = true;
         isValid = false;
     }
-
+    else
     {
         EmailErrorLabel.Text = "Dit e-mailadres bestaat al";
         EmailErrorLabel.IsVisible = true;
@@ -399,20 +412,57 @@ private bool IsValidEmail(string email)
     return email.Contains("@") && email.Contains(".");
 }
 
-//Annuleren: popup sluiten
-private void OnCancelAddUserClicked(object sender, EventArgs e)
-{
-    AddUserPopup.IsVisible = false;
-}
+
 
 // Bevestigen: gebruiker aanmaken, opslaan en lijst verversen
 private async void OnConfirmAddUserClicked(object sender, EventArgs e)
 {
-    // Extra check: als toch iets niet klopt
+    // Validatie uitvoeren
     ValidateAddUserForm();
     if (!ConfirmAddUserButton.IsEnabled)
         return;
 
+    if (_isEditing && _editingUser is not null)
+    {
+        // maak nieuw object (want properties zijn init-only)
+        var updatedUser = new UserAccount
+        {
+            Id = _editingUser.Id,
+            FirstName = FirstNameEntry.Text.Trim(),
+            LastName = LastNameEntry.Text.Trim(),
+            Email = EmailEntry.Text.Trim(),
+            Role = RolePicker.SelectedItem?.ToString() ?? (_editingUser.Role ?? string.Empty)
+        };
+
+        // Update in service (mock)
+        await _userService.UpdateUserAsync(updatedUser);
+
+        // Vervang in lokale lijst (_allUsers) zodat ObservableCollection de UI updatet
+        var index = _allUsers.IndexOf(_allUsers.First(u => u.Id == _editingUser.Id));
+        if (index >= 0)
+        {
+            _allUsers[index] = updatedUser;
+        }
+
+        // Herbouw zichtbare lijst en sluit popup
+        ApplyFiltersAndSorting();
+
+        AddUserPopup.IsVisible = false;
+
+        // reset edit-state
+        _isEditing = false;
+        _editingUser = null;
+        ConfirmAddUserButton.Text = "Bevestigen";
+
+        await Application.Current.MainPage.DisplayAlert(
+            "Succes",
+            "De wijzigingen zijn opgeslagen.",
+            "OK");
+
+        return;
+    }
+
+    // --- anders: nieuwe gebruiker toevoegen (bestaande logica) ---
     var newUser = new UserAccount
     {
         Id = GenerateNewUserId(),
@@ -422,19 +472,12 @@ private async void OnConfirmAddUserClicked(object sender, EventArgs e)
         Role = RolePicker.SelectedItem?.ToString() ?? "Werknemer"
     };
 
-    // 1. Opslaan in je service (mock data)
     await _userService.AddUserAsync(newUser);
-
-    // 2. Toevoegen aan lokale lijst
     _allUsers.Add(newUser);
-
-    // 3. Filters en sortering opnieuw toepassen zodat hij in het overzicht komt
     ApplyFiltersAndSorting();
 
-    // 4. Popup sluiten
     AddUserPopup.IsVisible = false;
 
-    // 5. Succesmelding
     await Application.Current.MainPage.DisplayAlert(
         "Succes",
         "De gebruiker is succesvol toegevoegd.",
