@@ -2,99 +2,221 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- HEADER GRID (bovenbalk) -->
-    <Style x:Key="HeaderGridStyle" TargetType="Grid">
-        <Setter Property="Padding" Value="16,10" />
-        <Setter Property="BackgroundColor" Value="#222222" />
-        <Setter Property="ColumnDefinitions" Value="Auto,Auto,*" />
-    </Style>
+  <!-- COLORS -->
+  <Color x:Key="PrimaryColor">#3A7AFE</Color>
+  <Color x:Key="PrimaryDark">#2F63CC</Color>
+  <Color x:Key="AccentColor">#4ADE80</Color>
+  <Color x:Key="LightGray">#F3F4F6</Color>
+  <Color x:Key="DarkGray">#4B5563</Color>
 
-    <!-- ICON-BUTTONS IN HEADER (hamburger + home) -->
-    <Style x:Key="HeaderIconButtonStyle" TargetType="Button">
-        <Setter Property="FontSize" Value="20" />
-        <Setter Property="WidthRequest" Value="40" />
-        <Setter Property="HeightRequest" Value="40" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="TextColor" Value="White" />
-    </Style>
+  <!-- BUTTON STYLE -->
+  <Style TargetType="Button" x:Key="InteractiveButton">
+    <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+    <Setter Property="TextColor" Value="White" />
+    <Setter Property="CornerRadius" Value="12" />
+    <Setter Property="Padding" Value="16,10" />
+    <Setter Property="FontAttributes" Value="Bold" />
+    <Setter Property="Shadow">
+      <Shadow Brush="{StaticResource PrimaryDark}" Offset="0,4" Radius="8" />
+    </Setter>
+    <Setter Property="VisualStateManager.VisualStateGroups">
+      <VisualStateGroupList>
+        <VisualStateGroup x:Name="CommonStates">
 
-    <!-- TITEL IN HEADER -->
-    <Style x:Key="HeaderTitleLabelStyle" TargetType="Label">
-        <Setter Property="FontSize" Value="20" />
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalOptions" Value="Center" />
-        <Setter Property="TextColor" Value="White" />
-    </Style>
+          <!-- NORMAL -->
+          <VisualState x:Name="Normal" />
 
-    <!-- SIDE MENU CONTAINER -->
-    <Style x:Key="SideMenuStyle" TargetType="VerticalStackLayout">
-        <Setter Property="BackgroundColor" Value="#333333" />
-        <Setter Property="Padding" Value="16" />
-        <Setter Property="Spacing" Value="10" />
-    </Style>
+          <!-- PRESSED -->
+          <VisualState x:Name="Pressed">
+            <VisualState.Setters>
+              <Setter Property="Scale" Value="0.96" />
+              <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
+            </VisualState.Setters>
+          </VisualState>
 
-    <!-- "MENU" LABEL IN SIDE MENU -->
-    <Style x:Key="SideMenuTitleLabelStyle" TargetType="Label">
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="FontSize" Value="18" />
-        <Setter Property="TextColor" Value="White" />
-    </Style>
+          <!-- POINTER OVER -->
+          <VisualState x:Name="PointerOver">
+            <VisualState.Setters>
+              <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}" />
+            </VisualState.Setters>
+          </VisualState>
 
-    <!-- WELKOM-TITEL OP SUBPAGE -->
-    <Style x:Key="SubPageWelcomeLabelStyle" TargetType="Label">
-        <Setter Property="FontSize" Value="18" />
-    </Style>
+        </VisualStateGroup>
+      </VisualStateGroupList>
+    </Setter>
+  </Style>
 
-    <!-- PAGE3: titel bovenaan -->
-    <Style x:Key="UserOverviewTitleLabelStyle" TargetType="Label">
-        <Setter Property="FontSize" Value="22" />
-        <Setter Property="FontAttributes" Value="Bold" />
-    </Style>
+  <!-- LABEL STYLE -->
+  <Style TargetType="Label" x:Key="HeaderLabel">
+    <Setter Property="FontSize" Value="28" />
+    <Setter Property="FontAttributes" Value="Bold" />
+    <Setter Property="TextColor" Value="{StaticResource DarkGray}" />
+  </Style>
 
-    <!-- PAGE3: beschrijving onder titel -->
-    <Style x:Key="UserOverviewDescriptionLabelStyle" TargetType="Label">
-        <Setter Property="TextColor" Value="Gray" />
-    </Style>
+ 
+  
+  <!-- HEADER GRID STYLE -->
+  <Style x:Key="HeaderGridStyle" TargetType="Grid">
+    <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+    <Setter Property="Padding" Value="12,18" />
+    <Setter Property="ColumnDefinitions" Value="Auto,*,Auto" />
+  </Style>
 
-    <!-- PAGE3: statuslabel onder de zoekbalk -->
-    <Style x:Key="StatusLabelStyle" TargetType="Label">
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="TextColor" Value="Gray" />
-    </Style>
+  <!-- HEADER TITLE LABEL -->
+  <Style x:Key="HeaderTitleLabelStyle" TargetType="Label">
+    <Setter Property="FontSize" Value="26" />
+    <Setter Property="TextColor" Value="White" />
+    <Setter Property="HorizontalOptions" Value="Center" />
+  </Style>
 
-    <!-- PAGE3: foutmeldingstekst -->
-    <Style x:Key="ErrorLabelStyle" TargetType="Label">
-        <Setter Property="TextColor" Value="DarkRed" />
-        <Setter Property="FontAttributes" Value="Bold" />
-    </Style>
+  <!-- HEADER ICON BUTTON -->
+  <Style x:Key="HeaderIconButtonStyle" TargetType="Button" BasedOn="{StaticResource InteractiveButton}">
+    <Setter Property="BackgroundColor" Value="Transparent" />
+    <Setter Property="TextColor" Value="White" />
+    <Setter Property="FontSize" Value="22" />
+    <Setter Property="Shadow" Value="None" />
+  </Style>
 
-    <!-- PAGE3: lege-staat tekst in CollectionView -->
-    <Style x:Key="EmptyStateLabelStyle" TargetType="Label">
-        <Setter Property="TextColor" Value="Gray" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalOptions" Value="Center" />
-    </Style>
+  <!-- SIDE MENU -->
+  <Style x:Key="SideMenuStyle" TargetType="VerticalStackLayout">
+    <Setter Property="BackgroundColor" Value="{StaticResource LightGray}" />
+    <Setter Property="Padding" Value="20,30" />
+    <Setter Property="Spacing" Value="12" />
+    <Setter Property="WidthRequest" Value="220" />
+  </Style>
 
-    <!-- PAGE3: access denied kaart -->
-    <Style x:Key="AccessDeniedFrameStyle" TargetType="Frame">
-        <Setter Property="BorderColor" Value="DarkRed" />
-        <Setter Property="BackgroundColor" Value="MistyRose" />
-        <Setter Property="Padding" Value="16" />
-    </Style>
+  <Style x:Key="SideMenuTitleLabelStyle" TargetType="Label">
+    <Setter Property="FontSize" Value="20" />
+    <Setter Property="TextColor" Value="{StaticResource DarkGray}" />
+    <Setter Property="FontAttributes" Value="Bold" />
+    <Setter Property="Margin" Value="0,0,0,10" />
+  </Style>
 
-    <Style x:Key="AccessDeniedLabelStyle" TargetType="Label">
-        <Setter Property="TextColor" Value="DarkRed" />
-        <Setter Property="FontAttributes" Value="Bold" />
-    </Style>
+  <!-- SUBPAGE WELCOME LABEL -->
+  <Style x:Key="SubPageWelcomeLabelStyle" TargetType="Label">
+    <Setter Property="FontSize" Value="20" />
+    <Setter Property="TextColor" Value="{StaticResource DarkGray}" />
+  </Style>
 
-    <!-- PAGE3: kolomkop-knoppen in de gebruikerslijst -->
-    <Style x:Key="UserListHeaderButtonStyle" TargetType="Button">
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="HorizontalOptions" Value="Start" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="TextColor" Value="{StaticResource Primary}" />
-    </Style>
+  <!-- PAGE 3 TITLE -->
+  <Style x:Key="UserOverviewTitleLabelStyle" TargetType="Label">
+    <Setter Property="FontSize" Value="26" />
+    <Setter Property="FontAttributes" Value="Bold" />
+    <Setter Property="TextColor" Value="{StaticResource DarkGray}" />
+  </Style>
 
+  <!-- PAGE 3 DESCRIPTION -->
+  <Style x:Key="UserOverviewDescriptionLabelStyle" TargetType="Label">
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="TextColor" Value="{StaticResource DarkGray}" />
+  </Style>
+
+  <!-- ACCESS DENIED CARD -->
+  <Style x:Key="AccessDeniedFrameStyle" TargetType="Frame">
+    <Setter Property="BackgroundColor" Value="#FFE4E4" />
+    <Setter Property="BorderColor" Value="#FF6B6B" />
+    <Setter Property="Padding" Value="16" />
+    <Setter Property="CornerRadius" Value="12" />
+  </Style>
+
+  <Style x:Key="AccessDeniedLabelStyle" TargetType="Label">
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="TextColor" Value="#B00020" />
+    <Setter Property="FontAttributes" Value="Bold" />
+  </Style>
+
+  <!-- USER LIST HEADER BUTTON -->
+  <Style x:Key="UserListHeaderButtonStyle" TargetType="Button">
+    <Setter Property="BackgroundColor" Value="Transparent" />
+    <Setter Property="TextColor" Value="{StaticResource DarkGray}" />
+    <Setter Property="FontAttributes" Value="Bold" />
+    <Setter Property="HorizontalOptions" Value="Start" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="VisualStateManager.VisualStateGroups">
+      <VisualStateGroupList>
+        <VisualStateGroup x:Name="CommonStates">
+          <VisualState x:Name="Normal" />
+          <VisualState x:Name="PointerOver">
+            <VisualState.Setters>
+              <Setter Property="TextColor" Value="{StaticResource PrimaryColor}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Pressed">
+            <VisualState.Setters>
+              <Setter Property="Scale" Value="0.97" />
+              <Setter Property="TextColor" Value="{StaticResource PrimaryDark}" />
+            </VisualState.Setters>
+          </VisualState>
+        </VisualStateGroup>
+      </VisualStateGroupList>
+    </Setter>
+  </Style>
+
+  <!-- EMPTY STATE -->
+  <Style x:Key="EmptyStateLabelStyle" TargetType="Label">
+    <Setter Property="FontSize" Value="16" />
+    <Setter Property="TextColor" Value="{StaticResource DarkGray}" />
+    <Setter Property="HorizontalOptions" Value="Center" />
+    <Setter Property="Margin" Value="0,20,0,0" />
+  </Style>
+
+  
+  <!-- Page Background Variants -->
+  <Color x:Key="HomeBackground">#F4F6FA</Color>
+  <Color x:Key="UserManagementBackground">#F9F4FF</Color>
+  <Color x:Key="OverviewBackground">#F2FAF8</Color>
+
+  <!-- Animated Page Transition Wrapper -->
+  <Style x:Key="AnimatedPage" TargetType="ContentView">
+    <Setter Property="Opacity" Value="0" />
+    <Setter Property="VisualStateManager.VisualStateGroups">
+      <VisualStateGroupList>
+        <VisualStateGroup x:Name="TransitionStates">
+          <VisualState x:Name="Show">
+            <VisualState.Setters>
+              <Setter Property="Opacity" Value="1" />
+              <Setter Property="TranslationX" Value="0" />
+            </VisualState.Setters>
+          </VisualState>
+        </VisualStateGroup>
+      </VisualStateGroupList>
+    </Setter>
+  </Style>
+
+  <!-- Hover-Animated Sidebar Buttons With Palette Colors -->
+  <Style TargetType="Button" x:Key="SideMenuButton" BasedOn="{StaticResource InteractiveButton}">
+    <Setter Property="BackgroundColor" Value="Transparent" />
+    <Setter Property="TextColor" Value="{StaticResource DarkGray}" />
+    <Setter Property="Padding" Value="22,16" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="FontSize" Value="18" />
+    <Setter Property="TranslationX" Value="0" />
+    <Setter Property="VisualStateManager.VisualStateGroups">
+      <VisualStateGroupList>
+        <VisualStateGroup x:Name="CommonStates">
+
+          <VisualState x:Name="Normal" />
+
+          <VisualState x:Name="PointerOver">
+            <VisualState.Setters>
+              <Setter Property="BackgroundColor" Value="#E6E2FF" />
+              <Setter Property="TextColor" Value="{StaticResource PrimaryColor}" />
+              <Setter Property="TranslationX" Value="8" />
+              <Setter Property="Scale" Value="1.05" />
+            </VisualState.Setters>
+          </VisualState>
+
+          <VisualState x:Name="Pressed">
+            <VisualState.Setters>
+              <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+              <Setter Property="TextColor" Value="White" />
+              <Setter Property="Scale" Value="0.97" />
+            </VisualState.Setters>
+          </VisualState>
+
+        </VisualStateGroup>
+      </VisualStateGroupList>
+    </Setter>
+  </Style>
 
 </ResourceDictionary>
