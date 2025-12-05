@@ -127,6 +127,7 @@
                                     <Button
                                       Grid.Column="6"
                                       Clicked="OnEditUsersClicked"
+                                      CommandParameter="{Binding}"
                                       Text="✎"
                                       FontSize="18"
                                       BackgroundColor="Purple"

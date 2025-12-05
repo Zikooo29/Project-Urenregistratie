@@ -13,6 +13,10 @@ public partial class Page3 : ContentView
     private readonly ObservableCollection<UserAccount> _allUsers = new();
     private readonly ObservableCollection<UserAccount> _visibleUsers = new();
 
+    // Edit state
+    private bool _isEditing = false;
+    private UserAccount? _editingUser = null;
+
     // Uit service mock-data
    // private readonly UserService _userService = new();
 
@@ -208,8 +212,37 @@ public partial class Page3 : ContentView
         ClearAddUserForm();
         AddUserPopup.IsVisible = true;
     }
-    private async void OnEditUsersClicked(object sender, EventArgs e) =>
-        await Application.Current.MainPage.DisplayAlert("Melding", "Tijdelijke actie gebruiker wijzingen", "Pepernoten");
+    private async void OnEditUsersClicked(object sender, EventArgs e) 
+    {
+        if (sender is not Button button)
+            return;
+
+        // verwacht CommandParameter="{Binding}" in XAML
+        var user = button.CommandParameter as UserAccount;
+        if (user is null)
+            return;
+
+        // Zet edit-state
+        _isEditing = true;
+        _editingUser = user;
+
+        // Vul popup velden met huidige waarden
+        FirstNameEntry.Text = user.FirstName;
+        LastNameEntry.Text = user.LastName;
+        EmailEntry.Text = user.Email;
+
+        // zet role picker's index op basis van items (als match)
+        var index = RolePicker.Items?.IndexOf(user.Role) ?? -1;
+        RolePicker.SelectedIndex = index >= 0 ? index : -1;
+
+        // knoptekst en validatie
+        ConfirmAddUserButton.Text = "Opslaan";
+        ConfirmAddUserButton.IsEnabled = false; // Validatie regelt wanneer true
+
+        // toon popup
+        AddUserPopup.IsVisible = true;
+    }
+
     private async void OnDeleteUsersClicked(object sender, EventArgs e)
     {
         if (sender is not Button button)
@@ -276,6 +309,11 @@ private void ClearAddUserForm()
     RoleErrorLabel.IsVisible = false;
 
     ConfirmAddUserButton.IsEnabled = false;
+    
+    // reset edit-state
+    _isEditing = false;
+    _editingUser = null;
+    ConfirmAddUserButton.Text = "Bevestigen";
 }
 
 // Wordt aangeroepen als een veld verandert (TextChanged/SelectedIndexChanged)
@@ -320,13 +358,22 @@ private void ValidateAddUserForm()
         EmailErrorLabel.IsVisible = true;
         isValid = false;
     }
-    else if (_allUsers.Any(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase)))
+    //Email mag hetzelfde blijven
+    else if (_allUsers.Any(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase)
+                                            && u.Id != (_editingUser?.Id ?? string.Empty)))
     {
         EmailErrorLabel.Text = "Dit e-mailadres bestaat al";
         EmailErrorLabel.IsVisible = true;
         isValid = false;
     }
-    else
+
+    {
+        EmailErrorLabel.Text = "Dit e-mailadres bestaat al";
+        EmailErrorLabel.IsVisible = true;
+        isValid = false;
+    }
+    
+    
     {
         EmailErrorLabel.IsVisible = false;
     }
@@ -346,7 +393,7 @@ private void ValidateAddUserForm()
     ConfirmAddUserButton.IsEnabled = isValid;
 }
 
-// Heel simpele e-mailcheck
+//e-mailcheck
 private bool IsValidEmail(string email)
 {
     return email.Contains("@") && email.Contains(".");
@@ -394,7 +441,7 @@ private async void OnConfirmAddUserClicked(object sender, EventArgs e)
         "OK");
 }
 
-// 🔹 Nieuwe ID maken: pakt hoogste nummer en telt er 1 bij op (#5, #6, etc.)
+// Nieuwe ID maken: pakt hoogste nummer en telt er 1 bij op (#5, #6, etc.)
 private string GenerateNewUserId()
 {
     int maxId = 0;

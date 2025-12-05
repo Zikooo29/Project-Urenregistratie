@@ -44,34 +44,58 @@ public class UserService
         await Task.Delay(250);
 
         return _seedUsers
-         .Select(user => new UserAccount
-          {
-              Id = user.Id,
-              FirstName = user.FirstName,
-              LastName = user.LastName,
-              Email = user.Email,
-              Role = user.Role,
-          })
+            .Select(user => new UserAccount
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Role = user.Role,
+            })
             .ToList();
 
     }
+
     public Task DeleteUserAsync(string id)
     {
         var user = _seedUsers.FirstOrDefault(u => u.Id == id);
         if (user is not null)
         {
-            _seedUsers.Remove(user);  // verwijdert uit de mock-lijst
+            _seedUsers.Remove(user); // verwijdert uit de mock-lijst
         }
 
         return Task.CompletedTask;
     }
-    
+
     //Add user task
     public Task AddUserAsync(UserAccount user)
     {
-        _seedUsers.Add(user);   
+        _seedUsers.Add(user);
+        return Task.CompletedTask;
+    }
+    
+    // Update bestaande gebruiker (mock)
+    public Task UpdateUserAsync(UserAccount updatedUser)
+    {
+        // Zoek index van het bestaande item
+        var index = _seedUsers.FindIndex(u => u.Id == updatedUser.Id);
+        if (index >= 0)
+        {
+            // Maak een nieuw UserAccount-object en zet dat op dezelfde index.
+            // Zo 'muteren' we geen init-only properties van een bestaand object.
+            _seedUsers[index] = new UserAccount
+            {
+                Id = updatedUser.Id,
+                FirstName = updatedUser.FirstName,
+                LastName = updatedUser.LastName,
+                Email = updatedUser.Email,
+                Role = updatedUser.Role,
+                // voeg hier andere velden toe als nodig (wachtwoord etc.)
+            };
+        }
+
         return Task.CompletedTask;
     }
 
-}
 
+}
