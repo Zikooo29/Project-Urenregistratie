@@ -214,7 +214,6 @@ public partial class Page3 : ContentView
     }
     private async void OnEditUsersClicked(object sender, EventArgs e) 
     {
-        ValidateAddUserForm();
 
         if (sender is not Button button)
             return;
@@ -243,6 +242,8 @@ public partial class Page3 : ContentView
 
         // toon popup
         AddUserPopup.IsVisible = true;
+        
+        ValidateAddUserForm();
     }
 
     private async void OnDeleteUsersClicked(object sender, EventArgs e)
@@ -371,7 +372,7 @@ private void ValidateAddUserForm()
         EmailErrorLabel.IsVisible = true;
         isValid = false;
     }
-    //Email mag hetzelfde blijven
+    //Email mag hetzelfde blijven bij edit
     else if (_allUsers.Any(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase)
                                             && u.Id != (_editingUser?.Id ?? string.Empty)))
     {
@@ -380,13 +381,6 @@ private void ValidateAddUserForm()
         isValid = false;
     }
     else
-    {
-        EmailErrorLabel.Text = "Dit e-mailadres bestaat al";
-        EmailErrorLabel.IsVisible = true;
-        isValid = false;
-    }
-    
-    
     {
         EmailErrorLabel.IsVisible = false;
     }
