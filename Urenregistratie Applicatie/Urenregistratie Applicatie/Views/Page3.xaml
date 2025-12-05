@@ -38,7 +38,8 @@
             <Frame Padding="0">
                 <Grid RowDefinitions="Auto,*">
 
-                    <Grid ColumnDefinitions="2*,2*,3*,1.5*,2*,1*,1*"
+                    <!-- Header -->
+                    <Grid ColumnDefinitions="2*,2*,2*,1.5*,2*,1*,0.4*"
                           Padding="12"
                           BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray950}}">
 
@@ -86,7 +87,7 @@
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Grid ColumnDefinitions="2*,2*,3*,1.5*,2*,0.5*,0.5*"
+                                <Grid ColumnDefinitions="1.9*,1.9*,2*,1.5*,2*,0.5*,0.5*"
                                       Padding="12"
                                       ColumnSpacing="8"
                                       BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}">
