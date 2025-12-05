@@ -17,7 +17,11 @@ namespace Urenregistratie_Applicatie
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            builder.Services.AddSingleton<UserService>();
+            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "urenregistratie.db");
+            var databaseService = new DatabaseService(dbPath);
+            builder.Services.AddSingleton(s => databaseService);
+
+        
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<Page1>();
             builder.Services.AddSingleton<Page2>();
