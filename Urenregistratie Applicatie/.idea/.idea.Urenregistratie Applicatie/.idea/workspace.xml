@@ -10,16 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c65a6934-bbc4-41c8-b782-3ec0504dab17" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Applicatie/Models/Bedrijf.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Applicatie/Models/Gebruiker.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Applicatie/Models/Project.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Applicatie/Models/Urenregistratie.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Applicatie/Services/DatabaseService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Bedrijf.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Bedrijf.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Gebruiker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Gebruiker.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Project.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Project.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Urenregistratie.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Models/Urenregistratie.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Services/DatabaseService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Services/DatabaseService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Urenregistratie Applicatie/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Urenregistratie Applicatie/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Services/UserService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Urenregistratie Applicatie/Urenregistratie Applicatie.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Urenregistratie Applicatie/Urenregistratie Applicatie.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -128,6 +120,7 @@
       <workItem from="1764702986393" duration="288000" />
       <workItem from="1764703277863" duration="985000" />
       <workItem from="1764704355137" duration="1616000" />
+      <workItem from="1764771432178" duration="1319000" />
     </task>
     <servers />
   </component>

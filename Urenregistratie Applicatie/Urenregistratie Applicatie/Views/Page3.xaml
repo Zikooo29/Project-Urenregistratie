@@ -4,6 +4,7 @@
              x:Class="Urenregistratie_Applicatie.Views.Page3"
              Loaded="OnLoaded">
 
+    <Grid>
     <VerticalStackLayout Padding="20" Spacing="12">
 
         <!-- Titel + beschrijving -->
@@ -126,6 +127,7 @@
                                     <Button
                                       Grid.Column="6"
                                       Clicked="OnEditUsersClicked"
+                                      CommandParameter="{Binding}"
                                       Text="✎"
                                       FontSize="18"
                                       BackgroundColor="Purple"
@@ -143,4 +145,94 @@
         </VerticalStackLayout>
 
     </VerticalStackLayout>
+        
+            <!--POPUP VOOR GEBRUIKER TOEVOEGEN -->
+        <Grid x:Name="AddUserPopup"
+              BackgroundColor="#80000000"  
+              IsVisible="False"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand">
+
+            <Frame Padding="20"
+                   CornerRadius="16"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   WidthRequest="400"
+                   BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
+
+                <VerticalStackLayout Spacing="8">
+
+                    <Label Text="Nieuwe gebruiker toevoegen"
+                           FontAttributes="Bold"
+                           FontSize="18"
+                           HorizontalOptions="Center" />
+
+                    <!-- Voornaam -->
+                    <Entry x:Name="FirstNameEntry"
+                           Placeholder="Voornaam *"
+                           TextChanged="OnAddUserFieldChanged" />
+                    <Label x:Name="FirstNameErrorLabel"
+                           Text="Voornaam is verplicht"
+                           TextColor="Red"
+                           FontSize="12"
+                           IsVisible="False" />
+
+                    <!-- Achternaam -->
+                    <Entry x:Name="LastNameEntry"
+                           Placeholder="Achternaam *"
+                           TextChanged="OnAddUserFieldChanged" />
+                    <Label x:Name="LastNameErrorLabel"
+                           Text="Achternaam is verplicht"
+                           TextColor="Red"
+                           FontSize="12"
+                           IsVisible="False" />
+
+                    <!-- E-mail -->
+                    <Entry x:Name="EmailEntry"
+                           Placeholder="E-mail *"
+                           Keyboard="Email"
+                           TextChanged="OnAddUserFieldChanged" />
+                    <Label x:Name="EmailErrorLabel"
+                           Text="Vul een geldig, uniek e-mailadres in"
+                           TextColor="Red"
+                           FontSize="12"
+                           IsVisible="False" />
+
+                    <!-- Rol -->
+                    <Picker x:Name="RolePicker"
+                            Title="Rol *"
+                            SelectedIndexChanged="OnAddUserFieldChanged">
+                        <Picker.Items>
+                            <x:String>Werknemer</x:String>
+                            <x:String>Administratieve werknemer</x:String>
+                            <x:String>Opdrachtgever</x:String>
+                            <x:String>Projectleider</x:String>
+                            <x:String>Manager</x:String>
+                        </Picker.Items>
+
+                    </Picker>
+                    <Label x:Name="RoleErrorLabel"
+                           Text="Rol is verplicht"
+                           TextColor="Red"
+                           FontSize="12"
+                           IsVisible="False" />
+
+                    <!-- Knoppen -->
+                    <HorizontalStackLayout HorizontalOptions="End"
+                                           Spacing="10"
+                                           Margin="0,10,0,0">
+                        <Button Text="Annuleren"
+                                Clicked="OnCancelAddUserClicked" />
+
+                        <Button x:Name="ConfirmAddUserButton"
+                                Text="Bevestigen"
+                                Clicked="OnConfirmAddUserClicked"
+                                IsEnabled="False" />
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+
+    </Grid>
 </ContentView>
