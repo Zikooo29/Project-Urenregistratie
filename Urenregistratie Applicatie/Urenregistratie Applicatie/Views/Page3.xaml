@@ -6,14 +6,12 @@
 
     <VerticalStackLayout Padding="20" Spacing="12">
 
-        <!-- Titel + beschrijving -->
         <Label Text="Gebruikersoverzicht"
                Style="{StaticResource UserOverviewTitleLabelStyle}" />
 
         <Label Text="Als administratiemedewerker kun je hier alle accounts beheren en controleren."
                Style="{StaticResource UserOverviewDescriptionLabelStyle}" />
 
-        <!-- Access denied-kaart voor niet-admins -->
         <Frame x:Name="AccessDeniedCard"
                IsVisible="False"
                Style="{StaticResource AccessDeniedFrameStyle}">
@@ -21,31 +19,25 @@
                    Style="{StaticResource AccessDeniedLabelStyle}" />
         </Frame>
 
-        <!-- Admin-inhoud (alleen zichtbaar voor admins) -->
         <VerticalStackLayout x:Name="AdminContent"
                              Spacing="12"
                              IsVisible="False">
 
-            <!-- Titel + knoppen boven tabel -->
             <Grid ColumnDefinitions="*,Auto"
                   VerticalOptions="Center">
                 <HorizontalStackLayout Spacing="8">
                     <Button Text="Gebruiker Toevoegen"
-                            Clicked="OnAddUsersClicked"
-                             />
+                            Clicked="OnAddUsersClicked"/>
                 </HorizontalStackLayout>
             </Grid>
 
-            <!-- Zoekbalk -->
             <SearchBar x:Name="UserSearchBar"
                        Placeholder="Zoek op naam of e-mail"
                        TextChanged="OnSearchTextChanged" />
 
-            <!-- Tabel met gebruikers -->
             <Frame Padding="0">
                 <Grid RowDefinitions="Auto,*">
 
-                    <!-- Header -->
                     <Grid ColumnDefinitions="2*,2*,3*,1.5*,2*,1*,1*"
                           Padding="12"
                           BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray950}}">
@@ -81,12 +73,11 @@
                                 Style="{StaticResource UserListHeaderButtonStyle}" />
                     </Grid>
 
-                    <!-- Gebruikerslijst -->
                     <CollectionView x:Name="UsersCollection"
                                     Grid.Row="1"
                                     ItemsLayout="VerticalList"
-                                    SelectionMode="None"
-                                    ItemsSource="{Binding}">
+                                    SelectionMode="None">
+
                         <CollectionView.EmptyView>
                             <Label x:Name="EmptyStateLabel"
                                    Text="Geen gebruikers gevonden"
@@ -110,29 +101,19 @@
                                            Text="{Binding Role}" />
                                     <Label Grid.Column="4"
                                            Text="{Binding Id}" />
-                                    <!-- Gebruiker verwijderen knop -->
-                                    <Button
-                                      Grid.Column="5"
-                                      Clicked="OnDeleteUsersClicked"
-                                      Text="🗑"
-                                      FontSize="18"
-                                      BackgroundColor="Purple"
-                                      HorizontalOptions="End"
-                                      VerticalOptions="Center"
-                                      Padding="0"
-                                      Margin="0,0,0,0" 
-                                      CommandParameter="{Binding}"/>
-                                    <!-- gebruiker bewerken knop -->
-                                    <Button
-                                      Grid.Column="6"
-                                      Clicked="OnEditUsersClicked"
-                                      Text="✎"
-                                      FontSize="18"
-                                      BackgroundColor="Purple"
-                                      HorizontalOptions="End"
-                                      VerticalOptions="Center"
-                                      Padding="0"
-                                      Margin="0,0,0,0" />
+
+                                    <Button Grid.Column="5"
+                                            Clicked="OnDeleteUsersClicked"
+                                            Text="🗑"
+                                            FontSize="18"
+                                            BackgroundColor="Purple"
+                                            CommandParameter="{Binding}"/>
+
+                                    <Button Grid.Column="6"
+                                            Clicked="OnEditUsersClicked"
+                                            Text="✎"
+                                            FontSize="18"
+                                            BackgroundColor="Purple"/>
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -140,6 +121,7 @@
 
                 </Grid>
             </Frame>
+
         </VerticalStackLayout>
 
     </VerticalStackLayout>
