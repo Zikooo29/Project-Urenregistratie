@@ -116,19 +116,41 @@ public partial class Page3 : ContentView
         {
             IEnumerable<Gebruiker> filtered = _allDbUsers;
 
+            // Sorteert de gebruikers dynamisch op de geselecteerde kolom en richting oplopend/aflopend, met ID als fallback
+
+
             if (!string.IsNullOrWhiteSpace(_searchTerm))
             {
                 var term = _searchTerm.Trim();
+
                 filtered = filtered.Where(g =>
-                    g.voornaam.Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                    g.achternaam.Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                    g.email.Contains(term, StringComparison.OrdinalIgnoreCase));
+                    (g.voornaam?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (g.achternaam?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (g.email?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false));
             }
 
-            filtered = _sortAscending
-                ? filtered.OrderBy(g => g.gebruiker_id)
-                : filtered.OrderByDescending(g => g.gebruiker_id);
+            // Sorteren op basis van _sortColumn en _sortAscending
+            filtered = (_sortColumn, _sortAscending) switch
+            {
+                (nameof(GebruikerViewModel.FirstName), true) => filtered.OrderBy(g => g.voornaam),
+                (nameof(GebruikerViewModel.FirstName), false) => filtered.OrderByDescending(g => g.voornaam),
 
+                (nameof(GebruikerViewModel.LastName), true) => filtered.OrderBy(g => g.achternaam),
+                (nameof(GebruikerViewModel.LastName), false) => filtered.OrderByDescending(g => g.achternaam),
+
+                (nameof(GebruikerViewModel.Email), true) => filtered.OrderBy(g => g.email),
+                (nameof(GebruikerViewModel.Email), false) => filtered.OrderByDescending(g => g.email),
+
+                (nameof(GebruikerViewModel.Role), true) => filtered.OrderBy(g => g.rol),
+                (nameof(GebruikerViewModel.Role), false) => filtered.OrderByDescending(g => g.rol),
+
+                (nameof(GebruikerViewModel.Id), true) => filtered.OrderBy(g => g.gebruiker_id),
+                (nameof(GebruikerViewModel.Id), false) => filtered.OrderByDescending(g => g.gebruiker_id),
+
+                _ => filtered.OrderBy(g => g.gebruiker_id)
+            };
+
+            //Vult de zichtbare gebruikerslijst opnieuw op basis van de gefilterde en gesorteerde resultaten en toont een lege-status indien nodig
             _visibleUsers.Clear();
             foreach (var g in filtered)
             {
@@ -137,14 +159,20 @@ public partial class Page3 : ContentView
 
             EmptyStateLabel.IsVisible = !_visibleUsers.Any();
         }
+
+        // Geeft een foutmelding weer als er iets misgaat bij het filteren of sorteren van de gebruikerslijst
         catch (Exception ex)
         {
             MainThread.BeginInvokeOnMainThread(async () =>
             {
-                await Application.Current.MainPage.DisplayAlert("Fout bij filteren databasegebruikers", ex.Message, "OK");
+                await Application.Current.MainPage.DisplayAlert(
+                    "Fout bij filteren databasegebruikers",
+                    ex.Message,
+                    "OK");
             });
         }
     }
+
 
     private void ApplySorting(string sortColumn)
     {
