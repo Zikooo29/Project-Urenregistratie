@@ -55,7 +55,7 @@ public partial class MainPage : ContentPage
     {
 
         SubPage.Content = _page3;
-        HeaderTitle.Text = "Gebruikersoverzict";
+        HeaderTitle.Text = "Gebruikersoverzicht";
         this.Title = "Gebruikersoverzicht";
     }
 }

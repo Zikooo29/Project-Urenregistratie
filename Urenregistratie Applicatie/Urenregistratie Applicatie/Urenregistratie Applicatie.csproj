@@ -66,6 +66,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include=".github\workflows\" />
 	  <Folder Include="Data\" />
 	</ItemGroup>
 
