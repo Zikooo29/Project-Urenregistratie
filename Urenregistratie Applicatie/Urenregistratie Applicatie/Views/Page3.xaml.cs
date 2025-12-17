@@ -27,7 +27,7 @@ public partial class Page3 : ContentView
 
     private readonly DatabaseService _databaseService;
 
-    public Page3( DatabaseService databaseService)
+    public Page3(DatabaseService databaseService)
     {
         InitializeComponent();
 
@@ -62,7 +62,7 @@ public partial class Page3 : ContentView
             if (!_isAdminUser)
                 return;
 
-           
+
             await LoadDbUsersAsync();
         }
         catch (Exception ex)
@@ -71,7 +71,7 @@ public partial class Page3 : ContentView
         }
     }
 
-  
+
 
     private async Task LoadDbUsersAsync()
     {
@@ -196,7 +196,7 @@ public partial class Page3 : ContentView
     }
 
     // Tijdelijke knoppen voor gebruikers toevoegen, wijzigen en gebruikers verwijderen.
-    private async void OnAddUsersClicked(object sender, EventArgs e) 
+    private async void OnAddUsersClicked(object sender, EventArgs e)
     {
         // Popup leegmaken en tonen
         ClearAddUserForm();
@@ -204,7 +204,7 @@ public partial class Page3 : ContentView
         ConfirmAddUserButton.Text = "Bevestigen";
         AddUserPopup.IsVisible = true;
     }
-    private async void OnEditUsersClicked(object sender, EventArgs e) 
+    private async void OnEditUsersClicked(object sender, EventArgs e)
     {
 
         if (sender is not Button button)
@@ -244,7 +244,7 @@ public partial class Page3 : ContentView
         PopupTitle.Text = "Gebruiker wijzigen";
         ConfirmAddUserButton.Text = "Opslaan";
         AddUserPopup.IsVisible = true;
-        
+
         ValidateAddUserForm();
     }
 
@@ -278,7 +278,7 @@ public partial class Page3 : ContentView
                 if (dbUser != null) _allDbUsers.Remove(dbUser);
                 ApplyDbFiltersAndSorting();
             }
-          
+
 
             await Application.Current.MainPage.DisplayAlert(
                 "Succes", "De gebruiker is verwijderd uit het overzicht.", "OK");
@@ -288,145 +288,146 @@ public partial class Page3 : ContentView
             await Application.Current.MainPage.DisplayAlert("Fout bij verwijderen", ex.Message, "OK");
         }
     }
-// ADJOA Formulier leegmaken en standaardwaarden instellen
-private void ClearAddUserForm()
-{
-    FirstNameEntry.Text = string.Empty;
-    LastNameEntry.Text = string.Empty;
-    EmailEntry.Text = string.Empty;
-
-    // Rol standaard op "Werknemer" zetten
-    RolePicker.SelectedIndex = -1;
-
-    FirstNameErrorLabel.IsVisible = false;
-    LastNameErrorLabel.IsVisible = false;
-    EmailErrorLabel.IsVisible = false;
-    RoleErrorLabel.IsVisible = false;
-
-    ConfirmAddUserButton.IsEnabled = false;
-    
-    // reset edit-state
-    _isEditing = false;
-    _editingUser = null;
-    ConfirmAddUserButton.Text = "Bevestigen";
-}
-
-// ANNULEREN knop (popup sluiten en edit-state resetten)
-private void OnCancelAddUserClicked(object sender, EventArgs e)
-{
-    AddUserPopup.IsVisible = false;
-    
-    // reset edit-state (geen wijziging doorgevoerd)
-    _isEditing = false;
-    _editingUser = null;
-    ConfirmAddUserButton.Text = "Bevestigen";
-}
-
-// Wordt aangeroepen als een veld verandert (TextChanged/SelectedIndexChanged)
-private void OnAddUserFieldChanged(object sender, EventArgs e)
-{
-    ValidateAddUserForm();
-}
-
-// Controleren of alle invoer geldig is
-private void ValidateAddUserForm()
-{
-    bool isValid = true;
-
-    // Voornaam
-    if (string.IsNullOrWhiteSpace(FirstNameEntry.Text))
+    // ADJOA Formulier leegmaken en standaardwaarden instellen
+    private void ClearAddUserForm()
     {
-        FirstNameErrorLabel.IsVisible = true;
-        isValid = false;
-    }
-    else
-    {
+        FirstNameEntry.Text = string.Empty;
+        LastNameEntry.Text = string.Empty;
+        EmailEntry.Text = string.Empty;
+
+        // Rol standaard op "Werknemer" zetten
+        RolePicker.SelectedIndex = -1;
+
         FirstNameErrorLabel.IsVisible = false;
-    }
-
-    // Achternaam
-    if (string.IsNullOrWhiteSpace(LastNameEntry.Text))
-    {
-        LastNameErrorLabel.IsVisible = true;
-        isValid = false;
-    }
-    else
-    {
         LastNameErrorLabel.IsVisible = false;
-    }
-
-    // E-mail
-    var email = EmailEntry.Text?.Trim() ?? string.Empty;
-
-    if (string.IsNullOrWhiteSpace(email) || !IsValidEmail(email))
-    {
-        EmailErrorLabel.Text = "Vul een geldig e-mailadres in";
-        EmailErrorLabel.IsVisible = true;
-        isValid = false;
-    }
-        //Email mag hetzelfde blijven bij edit
-        else if (_allDbUsers.Any(u =>
-         u.email.Equals(email, StringComparison.OrdinalIgnoreCase) &&
-         u.gebruiker_id.ToString() != (_editingUser?.Id ?? string.Empty)))
-        {
-        EmailErrorLabel.Text = "Dit e-mailadres bestaat al";
-        EmailErrorLabel.IsVisible = true;
-        isValid = false;
-    }
-    else
-    {
         EmailErrorLabel.IsVisible = false;
-    }
-
-    // Rol
-    if (RolePicker.SelectedIndex < 0)
-    {
-        RoleErrorLabel.IsVisible = true;
-        isValid = false;
-    }
-    else
-    {
         RoleErrorLabel.IsVisible = false;
+
+        ConfirmAddUserButton.IsEnabled = false;
+
+        // reset edit-state
+        _isEditing = false;
+        _editingUser = null;
+        ConfirmAddUserButton.Text = "Bevestigen";
     }
 
-    // Bevestigen-knop alleen actief als alles goed is
-    ConfirmAddUserButton.IsEnabled = isValid;
-}
-
-//e-mailcheck
-private bool IsValidEmail(string email)
-{
-    return email.Contains("@") && email.Contains(".");
-}
-
-
-
-// Bevestigen: gebruiker aanmaken, opslaan en lijst verversen
-private async void OnConfirmAddUserClicked(object sender, EventArgs e)
-{
-    // Validatie uitvoeren
-    ValidateAddUserForm();
-    if (!ConfirmAddUserButton.IsEnabled)
-        return;
-
-    if (_isEditing && _editingUser is not null)
+    // ANNULEREN knop (popup sluiten en edit-state resetten)
+    private void OnCancelAddUserClicked(object sender, EventArgs e)
     {
-        // maak nieuw object (want properties zijn init-only)
-        var updatedUser = new Gebruiker
+        AddUserPopup.IsVisible = false;
+
+        // reset edit-state (geen wijziging doorgevoerd)
+        _isEditing = false;
+        _editingUser = null;
+        ConfirmAddUserButton.Text = "Bevestigen";
+    }
+
+    // Wordt aangeroepen als een veld verandert (TextChanged/SelectedIndexChanged)
+    private void OnAddUserFieldChanged(object sender, EventArgs e)
+    {
+        ValidateAddUserForm();
+    }
+
+    // Controleren of alle invoer geldig is
+    private void ValidateAddUserForm()
+    {
+        bool isValid = true;
+
+        // Voornaam
+        if (string.IsNullOrWhiteSpace(FirstNameEntry.Text))
         {
-            gebruiker_id = int.Parse(_editingUser.Id.Replace("#", "")),
-            voornaam = FirstNameEntry.Text.Trim(),
-            achternaam = LastNameEntry.Text.Trim(),
-            email = EmailEntry.Text.Trim(),
-            rol = RolePicker.SelectedItem?.ToString() ?? (_editingUser.Role ?? string.Empty)
-        };
+            FirstNameErrorLabel.IsVisible = true;
+            isValid = false;
+        }
+        else
+        {
+            FirstNameErrorLabel.IsVisible = false;
+        }
+
+        // Achternaam
+        if (string.IsNullOrWhiteSpace(LastNameEntry.Text))
+        {
+            LastNameErrorLabel.IsVisible = true;
+            isValid = false;
+        }
+        else
+        {
+            LastNameErrorLabel.IsVisible = false;
+        }
+
+        // E-mail
+        var email = EmailEntry.Text?.Trim() ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(email) || !IsValidEmail(email))
+        {
+            EmailErrorLabel.Text = "Vul een geldig e-mailadres in";
+            EmailErrorLabel.IsVisible = true;
+            isValid = false;
+        }
+        //Email mag hetzelfde blijven bij edit
+        else if (EmailValidator.EmailExists(
+            email,
+            _allDbUsers.Select(u => (u.email, u.gebruiker_id.ToString())),
+            _editingUser?.Id))
+        {
+            EmailErrorLabel.Text = "Dit e-mailadres bestaat al";
+            EmailErrorLabel.IsVisible = true;
+            isValid = false;
+        }
+        else
+        {
+            EmailErrorLabel.IsVisible = false;
+        }
+
+        // Rol
+        if (RolePicker.SelectedIndex < 0)
+        {
+            RoleErrorLabel.IsVisible = true;
+            isValid = false;
+        }
+        else
+        {
+            RoleErrorLabel.IsVisible = false;
+        }
+
+        // Bevestigen-knop alleen actief als alles goed is
+        ConfirmAddUserButton.IsEnabled = isValid;
+    }
+
+    //e-mailcheck
+    private bool IsValidEmail(string email)
+    {
+        return EmailValidator.IsValidEmail(email);
+    }
+
+
+
+    // Bevestigen: gebruiker aanmaken, opslaan en lijst verversen
+    private async void OnConfirmAddUserClicked(object sender, EventArgs e)
+    {
+        // Validatie uitvoeren
+        ValidateAddUserForm();
+        if (!ConfirmAddUserButton.IsEnabled)
+            return;
+
+        if (_isEditing && _editingUser is not null)
+        {
+            // maak nieuw object (want properties zijn init-only)
+            var updatedUser = new Gebruiker
+            {
+                gebruiker_id = int.Parse(_editingUser.Id.Replace("#", "")),
+                voornaam = FirstNameEntry.Text.Trim(),
+                achternaam = LastNameEntry.Text.Trim(),
+                email = EmailEntry.Text.Trim(),
+                rol = RolePicker.SelectedItem?.ToString() ?? (_editingUser.Role ?? string.Empty)
+            };
 
             // Update in service (mock)
             await _databaseService.UpdateGebruikerAsync(updatedUser);
 
-        // Vervang in lokale lijst (_allUsers) zodat ObservableCollection de UI updatet
-       // var index = _allUsers.IndexOf(_allUsers.First(u => u.Id == _editingUser.Id));
-   
+            // Vervang in lokale lijst (_allUsers) zodat ObservableCollection de UI updatet
+            // var index = _allUsers.IndexOf(_allUsers.First(u => u.Id == _editingUser.Id));
+
 
             // Vervang in lokale lijst (_allUsers) zodat ObservableCollection de UI updatet
             var index = _allDbUsers.IndexOf(_allDbUsers.First(g => g.gebruiker_id == updatedUser.gebruiker_id));
@@ -440,46 +441,45 @@ private async void OnConfirmAddUserClicked(object sender, EventArgs e)
 
             AddUserPopup.IsVisible = false;
 
-        // reset edit-state
-        _isEditing = false;
-        _editingUser = null;
-        ConfirmAddUserButton.Text = "Bevestigen";
+            // reset edit-state
+            _isEditing = false;
+            _editingUser = null;
+            ConfirmAddUserButton.Text = "Bevestigen";
 
-        await Application.Current.MainPage.DisplayAlert(
-            "Succes",
-            "De wijzigingen zijn opgeslagen.",
-            "OK");
-      
+            await Application.Current.MainPage.DisplayAlert(
+                "Succes",
+                "De wijzigingen zijn opgeslagen.",
+                "OK");
+
 
 
             return;
 
 
-    }
+        }
 
-    // --- anders: nieuwe gebruiker toevoegen (bestaande logica) ---
-    var newUser = new Gebruiker
-    {
-        voornaam = FirstNameEntry.Text.Trim(),
-        achternaam = LastNameEntry.Text.Trim(),
-        email = EmailEntry.Text.Trim(),
-        rol = RolePicker.SelectedItem?.ToString() ?? "Werknemer"
-    };
+        // --- anders: nieuwe gebruiker toevoegen (bestaande logica) ---
+        var newUser = new Gebruiker
+        {
+            voornaam = FirstNameEntry.Text.Trim(),
+            achternaam = LastNameEntry.Text.Trim(),
+            email = EmailEntry.Text.Trim(),
+            rol = RolePicker.SelectedItem?.ToString() ?? "Werknemer"
+        };
 
-    await _databaseService.AddGebruikerAsync(newUser);
-    _allDbUsers.Add(newUser);
-    ApplyDbFiltersAndSorting();
+        await _databaseService.AddGebruikerAsync(newUser);
+        _allDbUsers.Add(newUser);
+        ApplyDbFiltersAndSorting();
 
         AddUserPopup.IsVisible = false;
 
-    await Application.Current.MainPage.DisplayAlert(
-        "Succes",
-        "De gebruiker is succesvol toegevoegd.",
-        "OK");
+        await Application.Current.MainPage.DisplayAlert(
+            "Succes",
+            "De gebruiker is succesvol toegevoegd.",
+            "OK");
 
-       
+
     }
 
 
 }
-
