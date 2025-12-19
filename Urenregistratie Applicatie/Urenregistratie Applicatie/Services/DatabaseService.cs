@@ -128,6 +128,7 @@ public class DatabaseService
         foreach (var u in testUsers)
         {
             await _db.InsertAsync(u);
+        }
     }
     private async Task SeedTestCompanies()
     {
