@@ -4,229 +4,213 @@
              x:Class="Urenregistratie_Applicatie.Views.Page3"
              Loaded="OnLoaded">
 
-    <Grid>
-    <VerticalStackLayout Padding="20" Spacing="12">
+    <VerticalStackLayout Padding="20" Spacing="16">
 
-        <Label Text="Gebruikersoverzicht"
-               Style="{StaticResource UserOverviewTitleLabelStyle}" />
+        <!-- TAB KNOPPEN -->
+        <HorizontalStackLayout Spacing="10">
+            <Button Text="Gebruikers" Clicked="OnShowUsersClicked"/>
+            <Button Text="Projecten" Clicked="OnShowProjectsClicked"/>
+            <Button Text="Bedrijven" Clicked="OnShowCompaniesClicked"/>
+        </HorizontalStackLayout>
 
-        <Label Text="Als administratiemedewerker kun je hier alle accounts beheren en controleren."
-               Style="{StaticResource UserOverviewDescriptionLabelStyle}" />
-
-        <Frame x:Name="AccessDeniedCard"
-               IsVisible="False"
-               Style="{StaticResource AccessDeniedFrameStyle}">
-            <Label Text="Alleen admins hebben toegang tot deze pagina."
-                   Style="{StaticResource AccessDeniedLabelStyle}" />
-        </Frame>
-
-        <VerticalStackLayout x:Name="AdminContent"
-                             Spacing="12"
-                             IsVisible="False">
-
-            <Grid ColumnDefinitions="*,Auto"
-                  VerticalOptions="Center">
-                <HorizontalStackLayout Spacing="8">
-                    <Button Text="Gebruiker Toevoegen"
-                            Clicked="OnAddUsersClicked"/>
-                </HorizontalStackLayout>
-            </Grid>
-
-            <SearchBar x:Name="UserSearchBar"
-                       Placeholder="Zoek op naam of e-mail"
-                       TextChanged="OnSearchTextChanged" />
-
-            <Frame Padding="0">
-                <Grid RowDefinitions="Auto,*">
-
-                    <!-- Header -->
-                    <Grid ColumnDefinitions="2*,2*,2*,1.5*,2*,1*,0.4*"
-                          Padding="12"
-                          BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray950}}">
-
-                        <Button x:Name="FirstNameHeader"
-                                Grid.Column="0"
-                                Text="Voornaam"
-                                Clicked="OnSortByFirstName"
-                                Style="{StaticResource UserListHeaderButtonStyle}" />
-
-                        <Button x:Name="LastNameHeader"
-                                Grid.Column="1"
-                                Text="Achternaam"
-                                Clicked="OnSortByLastName"
-                                Style="{StaticResource UserListHeaderButtonStyle}" />
-
-                        <Button x:Name="EmailHeader"
-                                Grid.Column="2"
-                                Text="E-mail"
-                                Clicked="OnSortByEmail"
-                                Style="{StaticResource UserListHeaderButtonStyle}" />
-
-                        <Button x:Name="RoleHeader"
-                                Grid.Column="3"
-                                Text="Rol"
-                                Clicked="OnSortByRole"
-                                Style="{StaticResource UserListHeaderButtonStyle}" />
-
-                        <Button x:Name="UserIdHeader"
-                                Grid.Column="4"
-                                Text="Gebruikers-ID"
-                                Clicked="OnSortById"
-                                Style="{StaticResource UserListHeaderButtonStyle}" />
-                    </Grid>
-
-                    <CollectionView x:Name="UsersCollection"
-                                    Grid.Row="1"
-                                    ItemsLayout="VerticalList"
-                                    SelectionMode="None">
-
-                        <CollectionView.EmptyView>
-                            <Label x:Name="EmptyStateLabel"
-                                   Text="Geen gebruikers gevonden"
-                                   Style="{StaticResource EmptyStateLabelStyle}" />
-                        </CollectionView.EmptyView>
-
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid ColumnDefinitions="1.9*,1.9*,2*,1.5*,2*,0.5*,0.5*"
-                                      Padding="12"
-                                      ColumnSpacing="8"
-                                      BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}">
-
-                                    <Label Grid.Column="0"
-                                           Text="{Binding FirstName}" />
-                                    <Label Grid.Column="1"
-                                           Text="{Binding LastName}" />
-                                    <Label Grid.Column="2"
-                                           Text="{Binding Email}" />
-                                    <Label Grid.Column="3"
-                                           Text="{Binding Role}" />
-                                    <Label Grid.Column="4"
-                                           Text="{Binding Id}" />
-                                    <!-- Gebruiker verwijderen knop -->
-                                    <Button
-                                      Grid.Column="5"
-                                      Clicked="OnDeleteUsersClicked"
-                                      Text="🗑"
-                                      FontSize="18"
-                                      BackgroundColor="Purple"
-                                      HorizontalOptions="End"
-                                      VerticalOptions="Center"
-                                      Padding="0"
-                                      Margin="0,0,0,0" 
-                                      CommandParameter="{Binding}"/>
-                                    <!-- gebruiker bewerken knop -->
-                                    <Button
-                                      Grid.Column="6"
-                                      Clicked="OnEditUsersClicked"
-                                      CommandParameter="{Binding}"
-                                      Text="✎"
-                                      FontSize="18"
-                                      BackgroundColor="Purple"
-                                      HorizontalOptions="End"
-                                      VerticalOptions="Center"
-                                      Padding="0"
-                                      Margin="0,0,0,0" />
+        <!-- OUDE INHOUD (GEBRUIKERS) -->
+        <ContentView x:Name="UsersTab" IsVisible="True">
+            <Grid>
+                <VerticalStackLayout Padding="20" Spacing="12">
+                    <Label Text="Gebruikersoverzicht" Style="{StaticResource UserOverviewTitleLabelStyle}" />
+                    <Label Text="Als administratiemedewerker kun je hier alle accounts beheren en controleren." Style="{StaticResource UserOverviewDescriptionLabelStyle}" />
+                    <Frame x:Name="AccessDeniedCard" IsVisible="False" Style="{StaticResource AccessDeniedFrameStyle}">
+                        <Label Text="Alleen admins hebben toegang tot deze pagina." Style="{StaticResource AccessDeniedLabelStyle}" />
+                    </Frame>
+                    <VerticalStackLayout x:Name="AdminContent" Spacing="12" IsVisible="False">
+                        <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                            <HorizontalStackLayout Spacing="8">
+                                <Button Text="Gebruiker Toevoegen" Clicked="OnAddUsersClicked"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                        <SearchBar x:Name="UserSearchBar" Placeholder="Zoek op naam of e-mail" TextChanged="OnSearchTextChanged" />
+                        <Frame Padding="0">
+                            <Grid RowDefinitions="Auto,*">
+                                <!-- Header -->
+                                <Grid ColumnDefinitions="2*,2*,2*,1.5*,2*,1*,0.4*" Padding="12" BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray950}}">
+                                    <Button x:Name="FirstNameHeader" Grid.Column="0" Text="Voornaam" Clicked="OnSortByFirstName" Style="{StaticResource UserListHeaderButtonStyle}" />
+                                    <Button x:Name="LastNameHeader" Grid.Column="1" Text="Achternaam" Clicked="OnSortByLastName" Style="{StaticResource UserListHeaderButtonStyle}" />
+                                    <Button x:Name="EmailHeader" Grid.Column="2" Text="E-mail" Clicked="OnSortByEmail" Style="{StaticResource UserListHeaderButtonStyle}" />
+                                    <Button x:Name="RoleHeader" Grid.Column="3" Text="Rol" Clicked="OnSortByRole" Style="{StaticResource UserListHeaderButtonStyle}" />
+                                    <Button x:Name="UserIdHeader" Grid.Column="4" Text="Gebruikers-ID" Clicked="OnSortById" Style="{StaticResource UserListHeaderButtonStyle}" />
                                 </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-
+                                <CollectionView x:Name="UsersCollection" Grid.Row="1" ItemsLayout="VerticalList" SelectionMode="None">
+                                    <CollectionView.EmptyView>
+                                        <Label x:Name="EmptyStateLabel" Text="Geen gebruikers gevonden" Style="{StaticResource EmptyStateLabelStyle}" />
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnDefinitions="1.9*,1.9*,2*,1.5*,2*,0.5*,0.5*" Padding="12" ColumnSpacing="8" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}">
+                                                <Label Grid.Column="0" Text="{Binding FirstName}" />
+                                                <Label Grid.Column="1" Text="{Binding LastName}" />
+                                                <Label Grid.Column="2" Text="{Binding Email}" />
+                                                <Label Grid.Column="3" Text="{Binding Role}" />
+                                                <Label Grid.Column="4" Text="{Binding Id}" />
+                                                <!-- Gebruiker verwijderen knop -->
+                                                <Button Grid.Column="5" Clicked="OnDeleteUsersClicked" Text="🗑" FontSize="18" BackgroundColor="Purple" HorizontalOptions="End" VerticalOptions="Center" Padding="0" Margin="0,0,0,0" CommandParameter="{Binding}"/>
+                                                <!-- gebruiker bewerken knop -->
+                                                <Button Grid.Column="6" Clicked="OnEditUsersClicked" CommandParameter="{Binding}" Text="✎" FontSize="18" BackgroundColor="Purple" HorizontalOptions="End" VerticalOptions="Center" Padding="0" Margin="0,0,0,0" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </Grid>
+                        </Frame>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+                <!--POPUP VOOR GEBRUIKER TOEVOEGEN OF WIJZIGEN -->
+                <Grid x:Name="AddUserPopup" BackgroundColor="#80000000" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <Frame Padding="20" CornerRadius="16" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="400" BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
+                        <VerticalStackLayout Spacing="8">
+                            <Label x:Name="PopupTitle" Text="Nieuwe gebruiker toevoegen" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" />
+                            <!-- Voornaam -->
+                            <Entry x:Name="FirstNameEntry" Placeholder="Voornaam *" TextChanged="OnAddUserFieldChanged" />
+                            <Label x:Name="FirstNameErrorLabel" Text="Voornaam is verplicht" TextColor="Red" FontSize="12" IsVisible="False" />
+                            <!-- Achternaam -->
+                            <Entry x:Name="LastNameEntry" Placeholder="Achternaam *" TextChanged="OnAddUserFieldChanged" />
+                            <Label x:Name="LastNameErrorLabel" Text="Achternaam is verplicht" TextColor="Red" FontSize="12" IsVisible="False" />
+                            <!-- E-mail -->
+                            <Entry x:Name="EmailEntry" Placeholder="E-mail *" Keyboard="Email" TextChanged="OnAddUserFieldChanged" />
+                            <Label x:Name="EmailErrorLabel" Text="Vul een geldig, uniek e-mailadres in" TextColor="Red" FontSize="12" IsVisible="False" />
+                            <!-- Rol -->
+                            <Picker x:Name="RolePicker" Title="Rol *" SelectedIndexChanged="OnAddUserFieldChanged">
+                                <Picker.Items>
+                                    <x:String>Werknemer</x:String>
+                                    <x:String>Administratieve werknemer</x:String>
+                                    <x:String>Opdrachtgever</x:String>
+                                    <x:String>Projectleider</x:String>
+                                    <x:String>Manager</x:String>
+                                </Picker.Items>
+                            </Picker>
+                            <Label x:Name="RoleErrorLabel" Text="Rol is verplicht" TextColor="Red" FontSize="12" IsVisible="False" />
+                            <!-- Knoppen -->
+                            <HorizontalStackLayout HorizontalOptions="End" Spacing="10" Margin="0,10,0,0">
+                                <Button Text="Annuleren" Clicked="OnCancelAddUserClicked" />
+                                <Button x:Name="ConfirmAddUserButton" Text="Bevestigen" Clicked="OnConfirmAddUserClicked" IsEnabled="False" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
                 </Grid>
-            </Frame>
+            </Grid>
+        </ContentView>
 
-        </VerticalStackLayout>
-
-    </VerticalStackLayout>
-        
-            <!--POPUP VOOR GEBRUIKER TOEVOEGEN OF WIJZIGEN -->
-        <Grid x:Name="AddUserPopup"
-              BackgroundColor="#80000000"  
-              IsVisible="False"
-              HorizontalOptions="FillAndExpand"
-              VerticalOptions="FillAndExpand">
-
-            <Frame Padding="20"
-                   CornerRadius="16"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   WidthRequest="400"
-                   BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
-
-                <VerticalStackLayout Spacing="8">
-
-                    <Label x:Name="PopupTitle"
-                           Text="Nieuwe gebruiker toevoegen"
-                           FontAttributes="Bold"
-                           FontSize="18"
-                           HorizontalOptions="Center" />
-
-                    <!-- Voornaam -->
-                    <Entry x:Name="FirstNameEntry"
-                           Placeholder="Voornaam *"
-                           TextChanged="OnAddUserFieldChanged" />
-                    <Label x:Name="FirstNameErrorLabel"
-                           Text="Voornaam is verplicht"
-                           TextColor="Red"
-                           FontSize="12"
-                           IsVisible="False" />
-
-                    <!-- Achternaam -->
-                    <Entry x:Name="LastNameEntry"
-                           Placeholder="Achternaam *"
-                           TextChanged="OnAddUserFieldChanged" />
-                    <Label x:Name="LastNameErrorLabel"
-                           Text="Achternaam is verplicht"
-                           TextColor="Red"
-                           FontSize="12"
-                           IsVisible="False" />
-
-                    <!-- E-mail -->
-                    <Entry x:Name="EmailEntry"
-                           Placeholder="E-mail *"
-                           Keyboard="Email"
-                           TextChanged="OnAddUserFieldChanged" />
-                    <Label x:Name="EmailErrorLabel"
-                           Text="Vul een geldig, uniek e-mailadres in"
-                           TextColor="Red"
-                           FontSize="12"
-                           IsVisible="False" />
-
-                    <!-- Rol -->
-                    <Picker x:Name="RolePicker"
-                            Title="Rol *"
-                            SelectedIndexChanged="OnAddUserFieldChanged">
-                        <Picker.Items>
-                            <x:String>Werknemer</x:String>
-                            <x:String>Administratieve werknemer</x:String>
-                            <x:String>Opdrachtgever</x:String>
-                            <x:String>Projectleider</x:String>
-                            <x:String>Manager</x:String>
-                        </Picker.Items>
-
-                    </Picker>
-                    <Label x:Name="RoleErrorLabel"
-                           Text="Rol is verplicht"
-                           TextColor="Red"
-                           FontSize="12"
-                           IsVisible="False" />
-
-                    <!-- Knoppen -->
-                    <HorizontalStackLayout HorizontalOptions="End"
-                                           Spacing="10"
-                                           Margin="0,10,0,0">
-                        <Button Text="Annuleren"
-                                Clicked="OnCancelAddUserClicked" />
-
-                        <Button x:Name="ConfirmAddUserButton"
-                                Text="Bevestigen"
-                                Clicked="OnConfirmAddUserClicked"
-                                IsEnabled="False" />
+        <!-- PROJECTEN OVERZICHT -->
+        <ContentView x:Name="ProjectsTab" IsVisible="False">
+            <VerticalStackLayout Padding="20" Spacing="12">
+                <Label Text="Projectenoverzicht" Style="{StaticResource UserOverviewTitleLabelStyle}" />
+                <Label Text="Hier kun je alle projecten beheren." Style="{StaticResource UserOverviewDescriptionLabelStyle}" />
+                <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                    <HorizontalStackLayout Spacing="8">
+                        <Button Text="Project Toevoegen" Clicked="OnAddProjectClicked" />
                     </HorizontalStackLayout>
-
+                </Grid>
+                <SearchBar Placeholder="Zoek op naam of status" TextChanged="OnProjectSearchChanged" />
+                <Frame Padding="0">
+                    <Grid RowDefinitions="Auto,*">
+                        <Grid ColumnDefinitions="2*,2*,2*,2*,0.5*" Padding="12" BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray950}}">
+                            <Button Text="Naam" Grid.Column="0" Clicked="OnSortProjectsByName" />
+                            <Button Text="Status" Grid.Column="1" Clicked="OnSortProjectsByStatus" />
+                            <Button Text="Startdatum" Grid.Column="2" Clicked="OnSortProjectsByStart" />
+                            <Button Text="Einddatum" Grid.Column="3" Clicked="OnSortProjectsByEnd" />
+                        </Grid>
+                        <CollectionView x:Name="ProjectsCollection" Grid.Row="1" ItemsLayout="VerticalList">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="2*,2*,2*,2*,Auto" Padding="8">
+                                        <Label Grid.Column="0" Text="{Binding Naam}" />
+                                        <Label Grid.Column="1" Text="{Binding Status}" />
+                                        <Label Grid.Column="2" Text="{Binding Startdatum}" />
+                                        <Label Grid.Column="3" Text="{Binding Einddatum}" />
+                                        <!-- Verwijderen -->
+                                        <Button Grid.Column="4" Text="🗑" FontSize="18" BackgroundColor="Purple" CommandParameter="{Binding}" Clicked="OnDeleteProjectClicked" Padding="0" Margin="0" />
+                                        <!-- Bewerken -->
+                                        <Button Grid.Column="5" Text="✎" FontSize="18" BackgroundColor="Purple" CommandParameter="{Binding}" Clicked="OnEditProjectClicked" Padding="0" Margin="0" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
+        </ContentView>
+        <!-- POPUP VOOR PROJECT TOEVOEGEN / BEWERKEN -->
+        <Grid x:Name="AddProjectPopup" BackgroundColor="#80000000" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Frame Padding="20" CornerRadius="16" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="400" BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
+                <VerticalStackLayout Spacing="8">
+                    <Label x:Name="ProjectPopupTitle" Text="Nieuw project toevoegen" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" />
+                    <Entry x:Name="ProjectNameEntry" Placeholder="Projectnaam *" />
+                    <Entry x:Name="ProjectStatusEntry" Placeholder="Status *" />
+                    <Entry x:Name="ProjectStartEntry" Placeholder="Startdatum (yyyy-mm-dd) *" />
+                    <Entry x:Name="ProjectEndEntry" Placeholder="Einddatum (yyyy-mm-dd) *" />
+                    <HorizontalStackLayout HorizontalOptions="End" Spacing="10" Margin="0,10,0,0">
+                        <Button Text="Annuleren" Clicked="OnCancelAddProjectClicked" />
+                        <Button x:Name="ConfirmAddProjectButton" Text="Bevestigen" Clicked="OnConfirmAddProjectClicked" IsEnabled="True" />
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Frame>
         </Grid>
 
-    </Grid>
+        <!-- BEDRIJVEN OVERZICHT -->
+        <ContentView x:Name="CompaniesTab" IsVisible="False">
+            <VerticalStackLayout Padding="20" Spacing="12">
+                <Label Text="Bedrijvenoverzicht" Style="{StaticResource UserOverviewTitleLabelStyle}" />
+                <Label Text="Hier kun je bedrijven beheren." Style="{StaticResource UserOverviewDescriptionLabelStyle}" />
+                <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                    <HorizontalStackLayout Spacing="8">
+                        <Button Text="Bedrijf Toevoegen" Clicked="OnAddCompanyClicked" />
+                    </HorizontalStackLayout>
+                </Grid>
+                <SearchBar Placeholder="Zoek op naam of contactpersoon" TextChanged="OnCompanySearchChanged" />
+                <Frame Padding="0">
+                    <Grid RowDefinitions="Auto,*">
+                        <Grid ColumnDefinitions="2*,2*,2*,2*,0.5*" Padding="12" BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray950}}">
+                            <Button Text="Naam" Grid.Column="0" Clicked="OnSortCompaniesByName" />
+                            <Button Text="Contactpersoon" Grid.Column="1" Clicked="OnSortCompaniesByContact" />
+                            <Button Text="E-mail" Grid.Column="2" Clicked="OnSortCompaniesByEmail" />
+                            <Button Text="Telefoon" Grid.Column="3" Clicked="OnSortCompaniesByPhone" />
+                        </Grid>
+                        <CollectionView x:Name="CompaniesCollection" Grid.Row="1" ItemsLayout="VerticalList">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="2*,2*,2*,2*,Auto" Padding="8">
+                                        <Label Grid.Column="0" Text="{Binding Naam}" />
+                                        <Label Grid.Column="1" Text="{Binding Contactpersoon}" />
+                                        <Label Grid.Column="2" Text="{Binding Email}" />
+                                        <Label Grid.Column="3" Text="{Binding Telefoonnummer}" />
+                                        <!-- Verwijderen -->
+                                        <Button Grid.Column="4" Text="🗑" FontSize="18" BackgroundColor="Purple" CommandParameter="{Binding}" Clicked="OnDeleteCompanyClicked" Padding="0" Margin="0" />
+                                        <!-- Bewerken -->
+                                        <Button Grid.Column="5" Text="✎" FontSize="18" BackgroundColor="Purple" CommandParameter="{Binding}" Clicked="OnEditCompanyClicked" Padding="0" Margin="0" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
+        </ContentView>
+        <!-- POPUP VOOR BEDRIJF TOEVOEGEN / BEWERKEN -->
+        <Grid x:Name="AddCompanyPopup" BackgroundColor="#80000000" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Frame Padding="20" CornerRadius="16" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="400" BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
+                <VerticalStackLayout Spacing="8">
+                    <Label x:Name="CompanyPopupTitle" Text="Nieuw bedrijf toevoegen" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" />
+                    <Entry x:Name="CompanyNameEntry" Placeholder="Bedrijfsnaam *" />
+                    <Label x:Name="CompanyNameErrorLabel" Text="Bedrijfsnaam is verplicht" TextColor="Red" FontSize="12" IsVisible="False" />
+                    <Entry x:Name="CompanyContactEntry" Placeholder="Contactpersoon *" />
+                    <Entry x:Name="CompanyEmailEntry" Placeholder="E-mailadres *" />
+                    <Label x:Name="CompanyEmailErrorLabel" Text="Vul een geldig e-mailadres in" TextColor="Red" FontSize="12" IsVisible="False" />
+                    <Entry x:Name="CompanyPhoneEntry" Placeholder="Telefoonnummer *" />
+                    <HorizontalStackLayout HorizontalOptions="End" Spacing="10" Margin="0,10,0,0">
+                        <Button Text="Annuleren" Clicked="OnCancelAddCompanyClicked" />
+                        <Button x:Name="ConfirmAddCompanyButton" Text="Bevestigen" Clicked="OnConfirmAddCompanyClicked" IsEnabled="True" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </VerticalStackLayout>
 </ContentView>

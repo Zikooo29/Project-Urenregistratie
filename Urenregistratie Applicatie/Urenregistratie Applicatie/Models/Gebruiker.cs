@@ -16,7 +16,5 @@ namespace Urenregistratie_Applicatie.Models
         public string aanmaakdatum { get; set; } = DateTime.Now.ToString("yyyy-MM-dd");
         public bool actief { get; set; } = true;
 
-        [Indexed]
-        public int bedrijf_id { get; set; }
     }
 }
