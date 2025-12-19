@@ -17,6 +17,7 @@ Een Sprint Backlog taak wordt als <u>Done<u> beschouwd wanneer:
 {} Documentatie
 - Documentatie en ontwerp zijn bijgewerkt indien relevant.
 - Opmaak en structuur volgen de Windesheim-standaard.
+- Productonwner heeft de documentatie beoordeeld en goedgekeurd 
 
 {} Repository & Deployment
 - De pipeline van de feature-branch doorloopt succesvol (indien van toepassing).
