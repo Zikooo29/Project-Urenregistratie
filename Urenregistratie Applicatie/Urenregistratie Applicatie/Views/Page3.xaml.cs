@@ -1,112 +1,179 @@
-﻿
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using Urenregistratie_Applicatie.Models;
 using Urenregistratie_Applicatie.Services;
+using Urenregistratie_Applicatie.ViewModels;
+using Urenregistratie_Applicatie.Helpers;
 
 namespace Urenregistratie_Applicatie.Views;
 
-
 public partial class Page3 : ContentView
 {
-    // Ophalen uit opslag voor alle gebruikers  en wat zichtbaar is op het scherm
-    private readonly ObservableCollection<UserAccount> _allUsers = new();
-    private readonly ObservableCollection<UserAccount> _visibleUsers = new();
+    private readonly ObservableCollection<GebruikerViewModel> _visibleUsers = new();
+    private readonly ObservableCollection<Gebruiker> _allDbUsers = new();
 
     // Edit state
     private bool _isEditing = false;
-    private UserAccount? _editingUser = null;
+    private GebruikerViewModel? _editingUser = null;
 
-    // Uit service mock-data
-   // private readonly UserService _userService = new();
+
 
     // Zoeken/sorteer instellingen
     private string _searchTerm = string.Empty;
-    private string _sortColumn = nameof(UserAccount.Id);
+    private string _sortColumn = nameof(GebruikerViewModel.Id);
     private bool _sortAscending = true;
-
-    // Admin toegangscontrole, true = toegang tot de scherm, false = geen toegang
     private bool _isAdminUser = true;
+    private readonly string _currentUserId = "2";
 
-    private readonly string _currentUserId = "#2"; // simulatie van ingelogde gebruiker
+    private readonly DatabaseService _databaseService;
 
-    private readonly UserService _userService;
-
-    public Page3(UserService userService)
+    public Page3( DatabaseService databaseService)
     {
         InitializeComponent();
 
-        _userService = userService;
+        _databaseService = databaseService;
+
         UsersCollection.ItemsSource = _visibleUsers;
     }
 
-    // Bij laden van de pagina: gebruikersscherm tonen en users laden
     private async void OnLoaded(object? sender, EventArgs e)
     {
-        await InitializeAsync();
+        try
+        {
+            AdminContent.IsVisible = _isAdminUser;
+            AccessDeniedCard.IsVisible = !_isAdminUser;
+            if (!_isAdminUser) return;
+
+            await InitializeAsync();
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout bij laden pagina", ex.Message, "OK");
+        }
     }
 
     private async Task InitializeAsync()
     {
-        AdminContent.IsVisible = _isAdminUser;
-        AccessDeniedCard.IsVisible = !_isAdminUser;
+        try
+        {
+            AdminContent.IsVisible = _isAdminUser;
+            AccessDeniedCard.IsVisible = !_isAdminUser;
 
-        if (!_isAdminUser)
-            return;
+            if (!_isAdminUser)
+                return;
 
-        await LoadUsersAsync();
+           
+            await LoadDbUsersAsync();
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout bij initialisatie", ex.Message, "OK");
+        }
     }
 
-    // Gebruikers uit service ophalen en in UI zetten
-    private async Task LoadUsersAsync(bool simulateFailure = false)
+  
+
+    private async Task LoadDbUsersAsync()
     {
-        var users = await _userService.GetUsersAsync(simulateFailure);
-
-        _allUsers.Clear();
-        foreach (var user in users)
-            _allUsers.Add(user);
-
-        ApplyFiltersAndSorting();
+        try
+        {
+            _allDbUsers.Clear();
+            var dbUsers = await _databaseService.GetGebruikersAsync();
+            foreach (var g in dbUsers)
+            {
+                _allDbUsers.Add(g);
+            }
+            ApplyDbFiltersAndSorting();
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout bij laden van databasegebruikers", ex.Message, "OK");
+        }
     }
 
-    // Word aangeroepen zodra de tekst in de zoekbalk veranderd/ingevuld word en past filter meteen toe.
     private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
     {
-        _searchTerm = e.NewTextValue ?? string.Empty;
-        ApplyFiltersAndSorting();
+        try
+        {
+            _searchTerm = e.NewTextValue ?? string.Empty;
+            ApplyDbFiltersAndSorting();
+        }
+        catch (Exception ex)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Application.Current.MainPage.DisplayAlert("Fout bij zoeken", ex.Message, "OK");
+            });
+        }
     }
 
 
-    // functie Zoeken en sorteren, de lijst met gebruikers filteren op basis van de zoekterm
-    private void ApplyFiltersAndSorting()
+
+
+    private void ApplyDbFiltersAndSorting()
     {
-        if (!_isAdminUser)
-            return;
+        try
+        {
+            IEnumerable<Gebruiker> filtered = _allDbUsers;
 
-        IEnumerable<UserAccount> filtered = _allUsers;
+            // Sorteert de gebruikers dynamisch op de geselecteerde kolom en richting oplopend/aflopend, met ID als fallback
 
-        if (!string.IsNullOrWhiteSpace(_searchTerm))
-            filtered = filtered.Where(MatchesSearchTerm);
 
-        filtered = SortUsers(filtered);
+            if (!string.IsNullOrWhiteSpace(_searchTerm))
+            {
+                var term = _searchTerm.Trim();
 
-        UpdateVisibleUsers(filtered.ToList());
-        EmptyStateLabel.IsVisible = !_visibleUsers.Any();
+                filtered = filtered.Where(g =>
+                    (g.voornaam?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (g.achternaam?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (g.email?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false));
+            }
+
+            // Sorteren op basis van _sortColumn en _sortAscending
+            filtered = (_sortColumn, _sortAscending) switch
+            {
+                (nameof(GebruikerViewModel.FirstName), true) => filtered.OrderBy(g => g.voornaam),
+                (nameof(GebruikerViewModel.FirstName), false) => filtered.OrderByDescending(g => g.voornaam),
+
+                (nameof(GebruikerViewModel.LastName), true) => filtered.OrderBy(g => g.achternaam),
+                (nameof(GebruikerViewModel.LastName), false) => filtered.OrderByDescending(g => g.achternaam),
+
+                (nameof(GebruikerViewModel.Email), true) => filtered.OrderBy(g => g.email),
+                (nameof(GebruikerViewModel.Email), false) => filtered.OrderByDescending(g => g.email),
+
+                (nameof(GebruikerViewModel.Role), true) => filtered.OrderBy(g => g.rol),
+                (nameof(GebruikerViewModel.Role), false) => filtered.OrderByDescending(g => g.rol),
+
+                (nameof(GebruikerViewModel.Id), true) => filtered.OrderBy(g => g.gebruiker_id),
+                (nameof(GebruikerViewModel.Id), false) => filtered.OrderByDescending(g => g.gebruiker_id),
+
+                _ => filtered.OrderBy(g => g.gebruiker_id)
+            };
+
+            //Vult de zichtbare gebruikerslijst opnieuw op basis van de gefilterde en gesorteerde resultaten en toont een lege-status indien nodig
+            _visibleUsers.Clear();
+            foreach (var g in filtered)
+            {
+                _visibleUsers.Add(ViewModelMapper.ToViewModel(g));
+            }
+
+            EmptyStateLabel.IsVisible = !_visibleUsers.Any();
+        }
+
+        // Geeft een foutmelding weer als er iets misgaat bij het filteren of sorteren van de gebruikerslijst
+        catch (Exception ex)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Fout bij filteren databasegebruikers",
+                    ex.Message,
+                    "OK");
+            });
+        }
     }
 
-    // Zoeken op voornaam, achternaam of e-mail
-    private bool MatchesSearchTerm(UserAccount user)
-    {
-        var term = _searchTerm.Trim();
-        if (string.IsNullOrWhiteSpace(term))
-            return true;
 
-        return user.FirstName.Contains(term, StringComparison.OrdinalIgnoreCase)
-            || user.LastName.Contains(term, StringComparison.OrdinalIgnoreCase)
-            || user.Email.Contains(term, StringComparison.OrdinalIgnoreCase);
-    }
-
-    // De sorteer functie 
     private void ApplySorting(string sortColumn)
     {
         if (_sortColumn == sortColumn)
@@ -120,88 +187,39 @@ public partial class Page3 : ContentView
         }
 
         UpdateSortHeaderLabels();
-        ApplyFiltersAndSorting();
+        ApplyDbFiltersAndSorting();
     }
 
+    private void OnSortByFirstName(object sender, EventArgs e) =>
+        ApplySorting(nameof(GebruikerViewModel.FirstName));
 
-    // Event-handlers die de sortering binnen de columns regelen
-    private void OnSortByFirstName(object sender, EventArgs e) => ApplySorting(nameof(UserAccount.FirstName));
-    private void OnSortByLastName(object sender, EventArgs e) => ApplySorting(nameof(UserAccount.LastName));
-    private void OnSortByEmail(object sender, EventArgs e) => ApplySorting(nameof(UserAccount.Email));
-    private void OnSortByRole(object sender, EventArgs e) => ApplySorting(nameof(UserAccount.Role));
-    private void OnSortById(object sender, EventArgs e) => ApplySorting(nameof(UserAccount.Id));
+    private void OnSortByLastName(object sender, EventArgs e) =>
+        ApplySorting(nameof(GebruikerViewModel.LastName));
 
+    private void OnSortByEmail(object sender, EventArgs e) =>
+        ApplySorting(nameof(GebruikerViewModel.Email));
 
-    // Sorteer op basis van gekozen kolom en richting
-    private IEnumerable<UserAccount> SortUsers(IEnumerable<UserAccount> users)
-    {
-        if (_sortColumn == nameof(UserAccount.FirstName))
-        {
-            return _sortAscending
-                ? users.OrderBy(u => u.FirstName)
-                : users.OrderByDescending(u => u.FirstName);
-        }
+    private void OnSortByRole(object sender, EventArgs e) =>
+        ApplySorting(nameof(GebruikerViewModel.Role));
 
-        if (_sortColumn == nameof(UserAccount.LastName))
-        {
-            return _sortAscending
-                ? users.OrderBy(u => u.LastName)
-                : users.OrderByDescending(u => u.LastName);
-        }
+    private void OnSortById(object sender, EventArgs e) =>
+        ApplySorting(nameof(GebruikerViewModel.Id));
 
-        if (_sortColumn == nameof(UserAccount.Email))
-        {
-            return _sortAscending
-                ? users.OrderBy(u => u.Email)
-                : users.OrderByDescending(u => u.Email);
-        }
-
-        if (_sortColumn == nameof(UserAccount.Role))
-        {
-            return _sortAscending
-                ? users.OrderBy(u => u.Role)
-                : users.OrderByDescending(u => u.Role);
-        }
-
-        if (_sortColumn == nameof(UserAccount.Id))
-        {
-            return _sortAscending
-                ? users.OrderBy(u => u.Id)
-                : users.OrderByDescending(u => u.Id);
-        }
-
-        return _sortAscending
-            ? users.OrderBy(u => u.Id)
-            : users.OrderByDescending(u => u.Id);
-    }
-
-
-    // Zorgt ervoor dat de zichtbare lijst ook visueel wordt bijgewerkt (dus niet alleen in geheugen)
-    private void UpdateVisibleUsers(IReadOnlyCollection<UserAccount> users)
-    {
-        _visibleUsers.Clear();
-        foreach (var user in users)
-            _visibleUsers.Add(user);
-    }
-
-    // Deze functie zet bij elke kolomheader de juiste tekst en plaatst een sorteer pijltje (▲ of ▼) bij de kolom waarop op dat moment gesorteerd wordt.
     private void UpdateSortHeaderLabels()
     {
-        FirstNameHeader.Text = BuildSortLabel("Voornaam", nameof(UserAccount.FirstName));
-        LastNameHeader.Text = BuildSortLabel("Achternaam", nameof(UserAccount.LastName));
-        EmailHeader.Text = BuildSortLabel("E-mail", nameof(UserAccount.Email));
-        RoleHeader.Text = BuildSortLabel("Rol", nameof(UserAccount.Role));
-        UserIdHeader.Text = BuildSortLabel("Gebruikers-ID", nameof(UserAccount.Id));
+        FirstNameHeader.Text = BuildSortLabel("Voornaam", nameof(GebruikerViewModel.FirstName));
+        LastNameHeader.Text = BuildSortLabel("Achternaam", nameof(GebruikerViewModel.LastName));
+        EmailHeader.Text = BuildSortLabel("E-mail", nameof(GebruikerViewModel.Email));
+        RoleHeader.Text = BuildSortLabel("Rol", nameof(GebruikerViewModel.Role));
+        UserIdHeader.Text = BuildSortLabel("Gebruikers-ID", nameof(GebruikerViewModel.Id));
     }
 
-    //Deze functie voegt een sorteer-pijltje (▲ of ▼) toe aan de kolomnaam als die kolom op dat moment gebruikt wordt om te sorteren.
     private string BuildSortLabel(string kolomNaam, string kolomPropertyNaam)
     {
         if (_sortColumn != kolomPropertyNaam)
             return kolomNaam;
 
         string pijltje = _sortAscending ? "▲" : "▼";
-
         return kolomNaam + " " + pijltje;
     }
 
@@ -210,6 +228,8 @@ public partial class Page3 : ContentView
     {
         // Popup leegmaken en tonen
         ClearAddUserForm();
+        PopupTitle.Text = "Nieuwe gebruiker toevoegen";
+        ConfirmAddUserButton.Text = "Bevestigen";
         AddUserPopup.IsVisible = true;
     }
     private async void OnEditUsersClicked(object sender, EventArgs e) 
@@ -219,7 +239,7 @@ public partial class Page3 : ContentView
             return;
 
         // verwacht CommandParameter="{Binding}" in XAML
-        var user = button.CommandParameter as UserAccount;
+        var user = button.CommandParameter as GebruikerViewModel;
         if (user is null)
             return;
 
@@ -233,14 +253,24 @@ public partial class Page3 : ContentView
         EmailEntry.Text = user.Email;
 
         // zet role picker's index op basis van items (als match)
-        var index = RolePicker.Items?.IndexOf(user.Role) ?? -1;
-        RolePicker.SelectedIndex = index >= 0 ? index : -1;
+        var index = -1;
+        for (int i = 0; i < RolePicker.Items.Count; i++)
+        {
+            if (string.Equals(RolePicker.Items[i], user.Role, StringComparison.OrdinalIgnoreCase))
+            {
+                index = i;
+                break;
+            }
+        }
+        RolePicker.SelectedIndex = index;
 
         // knoptekst en validatie
         ConfirmAddUserButton.Text = "Opslaan";
         ConfirmAddUserButton.IsEnabled = false; // Validatie regelt wanneer true
 
-        // toon popup
+        // toon edit popup
+        PopupTitle.Text = "Gebruiker wijzigen";
+        ConfirmAddUserButton.Text = "Opslaan";
         AddUserPopup.IsVisible = true;
         
         ValidateAddUserForm();
@@ -248,53 +278,43 @@ public partial class Page3 : ContentView
 
     private async void OnDeleteUsersClicked(object sender, EventArgs e)
     {
-        if (sender is not Button button)
-            return;
-
-        // Haal de bijbehorende user uit de CommandParameter
-        var user = button.CommandParameter as UserAccount;
-        if (user is null)
-            return;
-
-        // Geen self-delete door admin
-        if (user.Id == _currentUserId)
+        try
         {
+            if (sender is not Button button) return;
+
+            var user = button.CommandParameter as GebruikerViewModel;
+            if (user == null) return;
+
+            if (user.Id == _currentUserId)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Niet toegestaan", "Je kunt je eigen account niet verwijderen.", "OK");
+                return;
+            }
+
+            bool bevestigen = await Application.Current.MainPage.DisplayAlert(
+                "Gebruiker verwijderen",
+                $"Weet je zeker dat je {user.FirstName} {user.LastName} wilt verwijderen?",
+                "Verwijderen", "Annuleren");
+
+            if (!bevestigen) return;
+
+            if (int.TryParse(user.Id, out int dbId))
+            {
+                await _databaseService.DeleteGebruikerAsync(dbId);
+                var dbUser = _allDbUsers.FirstOrDefault(g => g.gebruiker_id == dbId);
+                if (dbUser != null) _allDbUsers.Remove(dbUser);
+                ApplyDbFiltersAndSorting();
+            }
+          
+
             await Application.Current.MainPage.DisplayAlert(
-                "Niet toegestaan",
-                "Je kunt je eigen account niet verwijderen.",
-                "OK");
-            return;
+                "Succes", "De gebruiker is verwijderd uit het overzicht.", "OK");
         }
-
-        // 1. Bevestigingsmodal tonen
-        bool bevestigen = await Application.Current.MainPage.DisplayAlert(
-            "Gebruiker verwijderen",
-            $"Weet je zeker dat je {user.FirstName} {user.LastName} wilt verwijderen?",
-            "Verwijderen",
-            "Annuleren");
-
-        // 2. Bij annuleren: niets doen
-        if (!bevestigen)
-            return;
-
-        // 3. Verwijder gebruiker via service
-        await _userService.DeleteUserAsync(user.Id);
-
-        // 4. Verwijder uit de lokale lijsten en UI direct verversen
-        var userInAll = _allUsers.FirstOrDefault(u => u.Id == user.Id);
-        if (userInAll is not null)
+        catch (Exception ex)
         {
-            _allUsers.Remove(userInAll);
+            await Application.Current.MainPage.DisplayAlert("Fout bij verwijderen", ex.Message, "OK");
         }
-
-        // Dit herbouwt _visibleUsers o.b.v. filters & sortering
-        ApplyFiltersAndSorting();
-
-        // 5. Succesmelding
-        await Application.Current.MainPage.DisplayAlert(
-            "Succes",
-            "De gebruiker is verwijderd uit het overzicht.",
-            "OK");
     }
 // ADJOA Formulier leegmaken en standaardwaarden instellen
 private void ClearAddUserForm()
@@ -372,10 +392,11 @@ private void ValidateAddUserForm()
         EmailErrorLabel.IsVisible = true;
         isValid = false;
     }
-    //Email mag hetzelfde blijven bij edit
-    else if (_allUsers.Any(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase)
-                                            && u.Id != (_editingUser?.Id ?? string.Empty)))
-    {
+        //Email mag hetzelfde blijven bij edit
+        else if (_allDbUsers.Any(u =>
+         u.email.Equals(email, StringComparison.OrdinalIgnoreCase) &&
+         u.gebruiker_id.ToString() != (_editingUser?.Id ?? string.Empty)))
+        {
         EmailErrorLabel.Text = "Dit e-mailadres bestaat al";
         EmailErrorLabel.IsVisible = true;
         isValid = false;
@@ -419,29 +440,33 @@ private async void OnConfirmAddUserClicked(object sender, EventArgs e)
     if (_isEditing && _editingUser is not null)
     {
         // maak nieuw object (want properties zijn init-only)
-        var updatedUser = new UserAccount
+        var updatedUser = new Gebruiker
         {
-            Id = _editingUser.Id,
-            FirstName = FirstNameEntry.Text.Trim(),
-            LastName = LastNameEntry.Text.Trim(),
-            Email = EmailEntry.Text.Trim(),
-            Role = RolePicker.SelectedItem?.ToString() ?? (_editingUser.Role ?? string.Empty)
+            gebruiker_id = int.Parse(_editingUser.Id.Replace("#", "")),
+            voornaam = FirstNameEntry.Text.Trim(),
+            achternaam = LastNameEntry.Text.Trim(),
+            email = EmailEntry.Text.Trim(),
+            rol = RolePicker.SelectedItem?.ToString() ?? (_editingUser.Role ?? string.Empty)
         };
 
-        // Update in service (mock)
-        await _userService.UpdateUserAsync(updatedUser);
+            // Update in service (mock)
+            await _databaseService.UpdateGebruikerAsync(updatedUser);
 
         // Vervang in lokale lijst (_allUsers) zodat ObservableCollection de UI updatet
-        var index = _allUsers.IndexOf(_allUsers.First(u => u.Id == _editingUser.Id));
-        if (index >= 0)
-        {
-            _allUsers[index] = updatedUser;
-        }
+       // var index = _allUsers.IndexOf(_allUsers.First(u => u.Id == _editingUser.Id));
+   
 
-        // Herbouw zichtbare lijst en sluit popup
-        ApplyFiltersAndSorting();
+            // Vervang in lokale lijst (_allUsers) zodat ObservableCollection de UI updatet
+            var index = _allDbUsers.IndexOf(_allDbUsers.First(g => g.gebruiker_id == updatedUser.gebruiker_id));
+            if (index >= 0)
+            {
+                _allDbUsers[index] = updatedUser;
+            }
 
-        AddUserPopup.IsVisible = false;
+            // Herbouw zichtbare lijst en sluit popup
+            ApplyDbFiltersAndSorting();
+
+            AddUserPopup.IsVisible = false;
 
         // reset edit-state
         _isEditing = false;
@@ -452,50 +477,37 @@ private async void OnConfirmAddUserClicked(object sender, EventArgs e)
             "Succes",
             "De wijzigingen zijn opgeslagen.",
             "OK");
+      
 
-        return;
+
+            return;
+
+
     }
 
     // --- anders: nieuwe gebruiker toevoegen (bestaande logica) ---
-    var newUser = new UserAccount
+    var newUser = new Gebruiker
     {
-        Id = GenerateNewUserId(),
-        FirstName = FirstNameEntry.Text.Trim(),
-        LastName = LastNameEntry.Text.Trim(),
-        Email = EmailEntry.Text.Trim(),
-        Role = RolePicker.SelectedItem?.ToString() ?? "Werknemer"
+        voornaam = FirstNameEntry.Text.Trim(),
+        achternaam = LastNameEntry.Text.Trim(),
+        email = EmailEntry.Text.Trim(),
+        rol = RolePicker.SelectedItem?.ToString() ?? "Werknemer"
     };
 
-    await _userService.AddUserAsync(newUser);
-    _allUsers.Add(newUser);
-    ApplyFiltersAndSorting();
+    await _databaseService.AddGebruikerAsync(newUser);
+    _allDbUsers.Add(newUser);
+    ApplyDbFiltersAndSorting();
 
-    AddUserPopup.IsVisible = false;
+        AddUserPopup.IsVisible = false;
 
     await Application.Current.MainPage.DisplayAlert(
         "Succes",
         "De gebruiker is succesvol toegevoegd.",
         "OK");
-}
 
-// Nieuwe ID maken: pakt hoogste nummer en telt er 1 bij op (#5, #6, etc.)
-private string GenerateNewUserId()
-{
-    int maxId = 0;
-
-    foreach (var user in _allUsers)
-    {
-        if (!string.IsNullOrWhiteSpace(user.Id) &&
-            user.Id.StartsWith("#") &&
-            int.TryParse(user.Id.Substring(1), out int num))
-        {
-            if (num > maxId)
-                maxId = num;
-        }
+       
     }
 
-    return "#" + (maxId + 1);
-}
 
 }
 

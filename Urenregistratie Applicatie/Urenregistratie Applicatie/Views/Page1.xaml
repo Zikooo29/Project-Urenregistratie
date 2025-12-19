@@ -1,11 +1,78 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Urenregistratie_Applicatie.Views.Page1">
-    <VerticalStackLayout>
-        <Label 
-            Text="WIP, Omgeving nog onder constructie! "
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:Class="Urenregistratie_Applicatie.Views.Page1"
+             Loaded="OnPageLoaded">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="14">
+
+            <Label Text="Tijdregistratie"
+                   FontSize="24"
+                   FontAttributes="Bold" />
+
+            <Frame BorderColor="DarkGrey"
+                   BackgroundColor="#2E2E2E"
+                   Padding="12"
+                   CornerRadius="12">
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="Datum"
+                           FontAttributes="Bold" />
+                    <DatePicker x:Name="datePicker"
+                                DateSelected="OnDateChanged"
+                                Format="dd-MM-yyyy" />
+
+                    <Label Text="Project"
+                           FontAttributes="Bold" />
+                    <Picker x:Name="projectPicker"
+                            Title="Kies een project"
+                            SelectedIndexChanged="OnProjectChanged" />
+
+                    <Label Text="Starttijd"
+                           FontAttributes="Bold" />
+                    <TimePicker x:Name="startTimePicker"
+                                PropertyChanged="OnStartTimeChanged"
+                                Time="08:30:00"
+                                Format="HH:mm" />
+
+                    <Label Text="Eindtijd"
+                           FontAttributes="Bold" />
+                    <TimePicker x:Name="endTimePicker"
+                                PropertyChanged="OnEndTimeChanged"
+                                Time="17:00:00"
+                                Format="HH:mm" />
+
+                    <Label Text="Opmerking (optioneel)"
+                           FontAttributes="Bold" />
+                    <Editor x:Name="commentEditor"
+                            AutoSize="TextChanges"
+                            Placeholder="Voeg hier een korte toelichting toe"
+                            TextChanged="OnCommentChanged" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <Label x:Name="statusLabel"
+                   TextColor="#374151"
+                   FontAttributes="Bold" />
+
+            <Label x:Name="errorLabel"
+                   TextColor="Red"
+                   FontAttributes="Bold"
+                   LineBreakMode="WordWrap" />
+
+            <Label x:Name="successLabel"
+                   TextColor="Green"
+                   FontAttributes="Bold"
+                   LineBreakMode="WordWrap" />
+
+            <HorizontalStackLayout Spacing="10">
+                <Button x:Name="saveButton"
+                        Text="Registratie afronden"
+                        Clicked="OnSaveButtonClicked" />
+                <Button x:Name="newButton"
+                        Text="Start nieuwe registratie"
+                        Clicked="OnNewButtonClicked" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentView>

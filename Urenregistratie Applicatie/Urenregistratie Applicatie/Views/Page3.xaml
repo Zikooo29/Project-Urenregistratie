@@ -7,14 +7,12 @@
     <Grid>
     <VerticalStackLayout Padding="20" Spacing="12">
 
-        <!-- Titel + beschrijving -->
         <Label Text="Gebruikersoverzicht"
                Style="{StaticResource UserOverviewTitleLabelStyle}" />
 
         <Label Text="Als administratiemedewerker kun je hier alle accounts beheren en controleren."
                Style="{StaticResource UserOverviewDescriptionLabelStyle}" />
 
-        <!-- Access denied-kaart voor niet-admins -->
         <Frame x:Name="AccessDeniedCard"
                IsVisible="False"
                Style="{StaticResource AccessDeniedFrameStyle}">
@@ -22,27 +20,22 @@
                    Style="{StaticResource AccessDeniedLabelStyle}" />
         </Frame>
 
-        <!-- Admin-inhoud (alleen zichtbaar voor admins) -->
         <VerticalStackLayout x:Name="AdminContent"
                              Spacing="12"
                              IsVisible="False">
 
-            <!-- Titel + knoppen boven tabel -->
             <Grid ColumnDefinitions="*,Auto"
                   VerticalOptions="Center">
                 <HorizontalStackLayout Spacing="8">
                     <Button Text="Gebruiker Toevoegen"
-                            Clicked="OnAddUsersClicked"
-                             />
+                            Clicked="OnAddUsersClicked"/>
                 </HorizontalStackLayout>
             </Grid>
 
-            <!-- Zoekbalk -->
             <SearchBar x:Name="UserSearchBar"
                        Placeholder="Zoek op naam of e-mail"
                        TextChanged="OnSearchTextChanged" />
 
-            <!-- Tabel met gebruikers -->
             <Frame Padding="0">
                 <Grid RowDefinitions="Auto,*">
 
@@ -82,12 +75,11 @@
                                 Style="{StaticResource UserListHeaderButtonStyle}" />
                     </Grid>
 
-                    <!-- Gebruikerslijst -->
                     <CollectionView x:Name="UsersCollection"
                                     Grid.Row="1"
                                     ItemsLayout="VerticalList"
-                                    SelectionMode="None"
-                                    ItemsSource="{Binding}">
+                                    SelectionMode="None">
+
                         <CollectionView.EmptyView>
                             <Label x:Name="EmptyStateLabel"
                                    Text="Geen gebruikers gevonden"
@@ -142,11 +134,12 @@
 
                 </Grid>
             </Frame>
+
         </VerticalStackLayout>
 
     </VerticalStackLayout>
         
-            <!--POPUP VOOR GEBRUIKER TOEVOEGEN -->
+            <!--POPUP VOOR GEBRUIKER TOEVOEGEN OF WIJZIGEN -->
         <Grid x:Name="AddUserPopup"
               BackgroundColor="#80000000"  
               IsVisible="False"
@@ -162,7 +155,8 @@
 
                 <VerticalStackLayout Spacing="8">
 
-                    <Label Text="Nieuwe gebruiker toevoegen"
+                    <Label x:Name="PopupTitle"
+                           Text="Nieuwe gebruiker toevoegen"
                            FontAttributes="Bold"
                            FontSize="18"
                            HorizontalOptions="Center" />
