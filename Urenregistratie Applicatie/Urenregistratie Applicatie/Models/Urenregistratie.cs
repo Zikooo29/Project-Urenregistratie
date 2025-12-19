@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SQLite;
 
 namespace Urenregistratie_Applicatie.Models
@@ -16,6 +16,10 @@ namespace Urenregistratie_Applicatie.Models
 
         public string datum { get; set; } = string.Empty;
         public double aantal_uren { get; set; } = 0.0;
+
+        public string starttijd { get; set; } = string.Empty;
+
+        public string eindtijd { get; set; } = string.Empty;
 
         public string omschrijving { get; set; } = string.Empty;
         public string status { get; set; } = string.Empty;
