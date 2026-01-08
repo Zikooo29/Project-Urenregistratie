@@ -51,20 +51,7 @@ public class DatabaseService
     public Task<int> UpdateBedrijfAsync(Bedrijf bedrijf) => _db.UpdateAsync(bedrijf);
     public Task<int> DeleteBedrijfAsync(Bedrijf bedrijf) => _db.DeleteAsync(bedrijf);
 
-    // Delete gebruiker permanently from the database
-    public async Task<int> DeleteGebruikerAsync(int gebruikerId)
-    {
-        var gebruiker = await _db.Table<Gebruiker>()
-                                 .Where(g => g.gebruiker_id == gebruikerId)
-                                 .FirstOrDefaultAsync();
-        if (gebruiker != null)
-        {
-            return await _db.DeleteAsync(gebruiker);
-        }
-
-        return 0;
-    }
-
+    
     public async Task<List<Project>> GetActiveProjectsAsync()
     {
         return await _db.Table<Project>()
@@ -72,12 +59,7 @@ public class DatabaseService
                         .ToListAsync();
     }
 
-    public Task<Project?> GetProjectByIdAsync(int projectId)
-    {
-        return _db.Table<Project>()
-                  .Where(p => p.project_id == projectId)
-                  .FirstOrDefaultAsync();
-    }
+  
 
     public async Task<Urenregistratie?> GetActiveRegistrationAsync()
     {
@@ -260,41 +242,6 @@ public class DatabaseService
         foreach (var k in koppelingen)
             await _db.InsertAsync(k);
     }
+    
 
-}
-
-
-        var testProjects = new List<Project>
-        {
-            new Project
-            {
-                projectcode = "PRJ-001",
-                projectnaam = "Website vernieuwing",
-                beschrijving = "Nieuwe homepage voor klant",
-                status = "actief",
-                actief = true,
-            },
-            new Project
-            {
-                projectcode = "PRJ-002",
-                projectnaam = "Interne tools",
-                beschrijving = "Verbetering urenportaal",
-                status = "actief",
-                actief = true,
-            },
-            new Project
-            {
-                projectcode = "PRJ-003",
-                projectnaam = "Oud project",
-                beschrijving = "Niet meer actief",
-                status = "inactief",
-                actief = false,
-            },
-        };
-
-        foreach (var project in testProjects)
-        {
-            await _db.InsertAsync(project);
-        }
-    }
 }
